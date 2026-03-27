@@ -148,28 +148,145 @@
     background: var(--dark);
     overflow: hidden;
   }
+  /* warm glow behind the wardrobe */
   .hero::before {
     content: '';
     position: absolute;
-    top: 20%;
+    top: 50%;
     left: 50%;
-    transform: translateX(-50%);
-    width: 400px;
-    height: 400px;
-    background: radial-gradient(circle, var(--coral-glow) 0%, transparent 70%);
+    transform: translate(-50%, -50%);
+    width: 600px;
+    height: 500px;
+    background: radial-gradient(ellipse, rgba(90,50,120,0.2) 0%, rgba(208,112,90,0.08) 40%, transparent 70%);
     z-index: 0;
   }
-  .hero::after {
+
+  /* ── WARDROBE FRAME ── */
+  .wardrobe {
+    position: relative;
+    z-index: 1;
+    width: 100%;
+    max-width: 720px;
+    margin: 0 auto;
+  }
+  .wardrobe-frame {
+    position: relative;
+    border: 4px solid #4a2d6b;
+    background: linear-gradient(180deg, rgba(74,45,107,0.08) 0%, rgba(74,45,107,0.02) 100%);
+    padding: 60px 48px 50px;
+    /* pixel-stepped outer rim */
+    box-shadow:
+      4px 4px 0 0 #3a1f5a,
+      -4px 4px 0 0 #3a1f5a,
+      4px -4px 0 0 #3a1f5a,
+      -4px -4px 0 0 #3a1f5a,
+      8px 8px 0 0 #2a1545,
+      -8px 8px 0 0 #2a1545,
+      8px -8px 0 0 #2a1545,
+      -8px -8px 0 0 #2a1545,
+      /* inner glow */
+      inset 0 0 60px rgba(208,112,90,0.06),
+      inset 0 0 120px rgba(74,45,107,0.08);
+  }
+  /* top shelf line */
+  .wardrobe-frame::before {
     content: '';
     position: absolute;
-    bottom: 15%;
-    left: 35%;
-    width: 250px;
-    height: 250px;
-    background: radial-gradient(circle, var(--teal-glow) 0%, transparent 70%);
+    top: 36%;
+    left: 4px;
+    right: 4px;
+    height: 3px;
+    background: #4a2d6b;
+    opacity: 0.3;
+  }
+  /* hanger rod */
+  .wardrobe-frame::after {
+    content: '';
+    position: absolute;
+    top: 38%;
+    left: 25%;
+    right: 25%;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, rgba(74,45,107,0.4), transparent);
+  }
+  /* hangers */
+  .hangers {
+    position: absolute;
+    top: 33%;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 18px;
     z-index: 0;
   }
-  .hero-content { position: relative; z-index: 1; max-width: 680px; }
+  .hanger {
+    width: 20px;
+    height: 16px;
+    border: 2px solid rgba(74,45,107,0.25);
+    border-bottom: none;
+    border-radius: 8px 8px 0 0;
+    position: relative;
+  }
+  .hanger::after {
+    content: '';
+    position: absolute;
+    top: -6px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 4px;
+    height: 6px;
+    background: rgba(74,45,107,0.25);
+  }
+
+  /* side shelves */
+  .side-shelf-left, .side-shelf-right {
+    position: absolute;
+    top: 30%;
+    height: 3px;
+    width: 60px;
+    background: #4a2d6b;
+    opacity: 0.2;
+  }
+  .side-shelf-left { left: -68px; }
+  .side-shelf-right { right: -68px; }
+
+  /* bottom drawers */
+  .drawers {
+    position: absolute;
+    bottom: -40px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 20px;
+  }
+  .drawer {
+    width: 100px;
+    height: 32px;
+    border: 3px solid #4a2d6b;
+    background: rgba(74,45,107,0.06);
+    position: relative;
+    box-shadow:
+      3px 3px 0 0 #3a1f5a,
+      -3px 3px 0 0 #3a1f5a;
+  }
+  .drawer::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 8px;
+    height: 8px;
+    background: var(--coral);
+    opacity: 0.5;
+    box-shadow: 1px 1px 0 0 rgba(0,0,0,0.3);
+  }
+
+  /* content inside wardrobe */
+  .hero-content {
+    position: relative;
+    z-index: 2;
+  }
   .hero-eyebrow {
     font-family: 'Press Start 2P', monospace;
     font-size: 9px;
@@ -179,20 +296,20 @@
   }
   .hero h1 {
     font-family: 'Bodoni Moda', serif;
-    font-size: clamp(42px, 8vw, 72px);
+    font-size: clamp(38px, 7vw, 64px);
     font-weight: 400;
-    line-height: 1.1;
-    margin-bottom: 24px;
+    line-height: 1.15;
+    margin-bottom: 20px;
     letter-spacing: -1px;
     color: #fff;
   }
   .hero h1 em { font-style: italic; color: var(--coral); }
   .hero p {
-    font-size: 17px;
+    font-size: 16px;
     line-height: 1.7;
     color: var(--text-dim);
-    max-width: 520px;
-    margin: 0 auto 40px;
+    max-width: 480px;
+    margin: 0 auto 32px;
     font-weight: 300;
   }
   .scroll-hint {
@@ -207,6 +324,14 @@
     z-index: 1;
   }
   @keyframes bob { 0%,100% { transform: translateX(-50%) translateY(0); } 50% { transform: translateX(-50%) translateY(6px); } }
+
+  @media (max-width: 768px) {
+    .wardrobe-frame { padding: 40px 24px 36px; }
+    .side-shelf-left, .side-shelf-right { display: none; }
+    .drawers { gap: 12px; }
+    .drawer { width: 72px; height: 26px; }
+    .hangers { gap: 12px; }
+  }
 
   /* ── SECTIONS ── */
   section { padding: 80px 24px; position: relative; }
@@ -444,11 +569,34 @@
 
 <!-- HERO -->
 <div class="hero">
-  <div class="hero-content">
-    <div class="hero-eyebrow">~ Style Intelligence ~</div>
-    <h1>Your wardrobe,<br><em>illustrated.</em></h1>
-    <p>Put Together learns your style from outfit photos, renders every piece as a watercolor sticker, and dresses you every morning from what you already own.</p>
-    <a href="#waitlist" class="pixel-btn">Join the Waitlist →</a>
+  <div class="wardrobe">
+    <!-- side shelves -->
+    <div class="side-shelf-left"></div>
+    <div class="side-shelf-right"></div>
+
+    <div class="wardrobe-frame">
+      <!-- decorative hangers behind text -->
+      <div class="hangers">
+        <div class="hanger"></div>
+        <div class="hanger"></div>
+        <div class="hanger"></div>
+        <div class="hanger"></div>
+      </div>
+
+      <!-- content -->
+      <div class="hero-content">
+        <div class="hero-eyebrow">~ Style Intelligence ~</div>
+        <h1>Your wardrobe,<br><em>illustrated.</em></h1>
+        <p>Put Together learns your style from outfit photos, renders every piece as a watercolor sticker, and dresses you every morning from what you already own.</p>
+        <a href="#waitlist" class="pixel-btn">Join the Waitlist →</a>
+      </div>
+    </div>
+
+    <!-- bottom drawers -->
+    <div class="drawers">
+      <div class="drawer"></div>
+      <div class="drawer"></div>
+    </div>
   </div>
   <div class="scroll-hint">▼ scroll ▼</div>
 </div>
