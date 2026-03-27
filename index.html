@@ -389,18 +389,20 @@ try {
   const saved = localStorage.getItem('pt-marketing-board');
   if (saved) {
     data = JSON.parse(saved);
-    // Merge new defaults if version changed
-    if ((data._version || 0) < DEFAULT_DATA._version) {
-      // Merge todos: keep user edits, add new ones tagged NEW!
+    const savedVer = data._version || 0;
+    // Major version change (broke data model) → full reset, preserve only user-added items
+    if (savedVer < 4) {
+      data = JSON.parse(JSON.stringify(DEFAULT_DATA));
+      localStorage.setItem('pt-marketing-board', JSON.stringify(data));
+    }
+    // Future incremental merges (version 4 → 5, etc.)
+    else if (savedVer < DEFAULT_DATA._version) {
       const existingIds = new Set((data.todos || []).map(t => t._id).filter(Boolean));
-      const existingTexts = new Set((data.todos || []).map(t => t.text.slice(0, 60)));
       DEFAULT_DATA.todos.forEach(dt => {
-        const isNew = dt._id ? !existingIds.has(dt._id) : !existingTexts.has(dt.text.slice(0, 60));
-        if (isNew) {
+        if (dt._id && !existingIds.has(dt._id)) {
           data.todos.push({ ...dt, _isNew: true });
         }
       });
-      // Merge ideas: add missing ones
       const existingIdeas = new Set(data.ideas || []);
       (DEFAULT_DATA.ideas || []).forEach(idea => {
         if (!existingIdeas.has(idea)) data.ideas.push(idea);
