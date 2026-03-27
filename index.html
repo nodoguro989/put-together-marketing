@@ -182,108 +182,182 @@
 // ============ DATA ============
 const DEFAULT_DATA = {
   todos: [
-    { text: "Generate Candice avatar variations (4-5 outfits from sincerelyjules)", priority: 1 },
-    { text: "Set up Put Together Instagram account (rebrand dead account)", priority: 2 },
-    { text: "Create 'Meet Candice' carousel (6 slides)", priority: 3 },
-    { text: "Generate Sophie avatar from Jeanne Andrea reference", priority: 4 },
-    { text: "Generate Kenji avatar from reference photos", priority: 5 },
-    { text: "Draft captions for Week 1 posts (Candice intro + wardrobe + before/after)", priority: 6 },
-    { text: "Finalize Instagram bio (Chinese + English)", priority: 7 },
+    // ── INDEPENDENT: can start RIGHT NOW, no prerequisites ──
+    { text: "🟢 DECIDE: X account handle — @puttogether_style? @candice_styles? @styledbyai?", priority: 1 },
+    { text: "🟢 DECIDE: Sticker World IG handle — rebrand dead account", priority: 2 },
+    { text: "🟢 DECIDE: X voice — Put Together brand? Candice persona? Nameless AI stylist?", priority: 3 },
+    { text: "🟢 DECIDE: Celebrity sticker generation — legal comfort level (transformative art = likely fine, but confirm)", priority: 4 },
+    { text: "🟢 Generate Candice base sticker avatar (Nodoguro — using existing face model + nano-banana-pro)", priority: 5 },
+    { text: "🟢 Generate Sophie sticker avatar (Nodoguro — Jeanne Andrea reference)", priority: 6 },
+    { text: "🟢 Generate Kenji sticker avatar (Nodoguro — original reference photos)", priority: 7 },
+    { text: "🟢 Set up X/Twitter account for 'Put Together Reacts'", priority: 8 },
+    { text: "🟢 Rebrand dead IG account → Sticker World", priority: 9 },
+    { text: "🟢 Pick 3-5 celebrity/political outfit photos from THIS WEEK for first X posts", priority: 10 },
+    { text: "🟢 Collect scene sticker assets (popcorn, cinema, camping gear, coffee cups, etc.)", priority: 11 },
+    { text: "🟢 Write X account bio + voice/tone guidelines", priority: 12 },
+    { text: "🟢 Write Sticker World IG bio (Chinese + English)", priority: 13 },
+    // ── DEPENDENT: needs something above first ──
+    { text: "🟡 First X reaction post (needs: X account + celebrity photos + voice decision)", priority: 14 },
+    { text: "🟡 Generate celebrity stickers for X posts (needs: legal decision + celebrity photos)", priority: 15 },
+    { text: "🟡 'Meet Candice' sticker carousel for IG (needs: Candice avatar)", priority: 16 },
+    { text: "🟡 Design garment sheet template (needs: Candice avatar + sample stickers)", priority: 17 },
+    { text: "🟡 First Sticker World story: 'Candice & Sophie watch Barbie' (needs: both avatars + scene stickers)", priority: 18 },
+    { text: "🟡 Generate remaining cast avatars: Kai, Sloane, Zora, Mika (needs: pipeline validated with Candice)", priority: 19 },
+    { text: "🔴 TikTok transformation content (needs: multiple avatars + garment sheets + Larry skill setup)", priority: 20 },
   ],
   phases: [
     {
-      name: "Phase 1 — Establish the World",
+      name: "🐦 X/Twitter — Put Together Reacts",
       cards: [
-        { title: "Meet Candice", format: "Carousel", platform: "IG + 小红书", desc: "Intro her personality, not the app. 'She lives in LA. She has opinions about coffee and coats.'", status: "idea" },
-        { title: "Candice's Wardrobe in 6 Stickers", format: "Slideshow Reel", platform: "IG + TikTok", desc: "6 sticker pieces assembling on screen. Warm lo-fi music. Text overlay: piece names.", status: "idea" },
-        { title: "From Real OOTD → Put Together World", format: "Before/After Reel", platform: "IG + TikTok", desc: "Real outfit photo → avatar wearing it → sticker breakdown. THE product demo disguised as content.", status: "idea" },
-        { title: "Meet Sophie", format: "Carousel", platform: "IG + 小红书", desc: "Candice's mom. French-Canadian. Thinks coats are a personality trait.", status: "idea" },
-        { title: "Kenji's Closet", format: "Slideshow Reel", platform: "IG", desc: "The dad whose closet his son raids. Jazz/bossa nova music.", status: "idea" },
-        { title: "Like Father Like Son", format: "Carousel", platform: "IG + 小红书", desc: "Kenji look vs Kai wearing similar piece differently. Style inheritance.", status: "idea" },
-        { title: "Meet the Squad", format: "Carousel", platform: "IG + 小红书", desc: "Candice + her 3 people. 4 wardrobes. 0 overlap.", status: "idea" },
-        { title: "Zora's Color Game", format: "Slideshow Reel", platform: "IG + TikTok", desc: "Fast cuts, bold music. Let the colors do the talking.", status: "idea" },
-        { title: "Mika Doesn't Do Labels", format: "Carousel/Reel", platform: "IG + TikTok + 小红书", desc: "Gender-fluid showcase. Big market, underserved.", status: "idea" },
+        { title: "First Celebrity Reaction", format: "Image + Thread", platform: "X", desc: "Pick a celebrity at a public event this week. Analyze outfit + weather. Cute/polite commentary. Generate their sticker avatar + garment breakdown.", status: "idea" },
+        { title: "Trump Press Conference Fit Check", format: "Image + Thread", platform: "X", desc: "Analyze POTUS outfit for the day. Weather check. Polite, witty. Generate sticker. 'The tie is doing heavy lifting today.'", status: "idea" },
+        { title: "Red Carpet Breakdown", format: "Image + Thread", platform: "X", desc: "Any major premiere/gala this week. Full outfit sticker + garment sheet + style notes. Tag the event.", status: "idea" },
+        { title: "World Leader Summit Fit Check", format: "Image + Thread", platform: "X", desc: "G7/UN/bilateral meetings. 'Who styled better?' Two stickers side by side. Diplomatic outfit analysis.", status: "idea" },
+        { title: "Weekly Best Dressed Sticker", format: "Image", platform: "X", desc: "Every Friday: best public figure outfit of the week → full sticker treatment. Recurring series.", status: "idea" },
       ]
     },
     {
-      name: "Phase 2 — Introduce Mechanism",
+      name: "🎨 IG — Sticker World",
       cards: [
-        { title: "What Put Together Actually Is", format: "Carousel", platform: "IG + 小红书", desc: "First time naming the app. By now people already know the world.", status: "idea" },
-        { title: "Your Wardrobe, Your Mini-Me", format: "Reel", platform: "IG + TikTok", desc: "Mini-me generation sequence. The 'that's ME' moment.", status: "idea" },
-        { title: "How Candice Gets Dressed", format: "Slideshow Reel", platform: "IG + TikTok", desc: "Today tab walkthrough as Candice's morning routine. Not a tutorial.", status: "idea" },
+        { title: "Meet Candice", format: "Carousel (6 slides)", platform: "IG + 小红书", desc: "Intro her as Put Together's AI blogger/CMO. Her anime watercolor sticker world. 'She lives in LA. She has opinions about coffee and coats.'", status: "idea" },
+        { title: "Candice's Wardrobe in 6 Stickers", format: "Slideshow Reel", platform: "IG + 小红书", desc: "6 sticker pieces assembling on screen. Warm lo-fi music. Text overlay: piece names. First wardrobe reveal.", status: "idea" },
+        { title: "Candice & Sophie Watch Barbie", format: "Sticker Scene", platform: "IG + 小红书", desc: "Pink outfits because Barbie movie. Popcorn stickers, cinema screen, 2 beautiful avatars. Garment sheet + style notes.", status: "idea" },
+        { title: "Kenji & Sophie Pack for Camping", format: "Sticker Scene", platform: "IG + 小红书", desc: "Outdoor styling. Earth tones meet French-Canadian layering. Camping stickers. How they'd style themselves.", status: "idea" },
+        { title: "Meet Sophie", format: "Carousel", platform: "IG + 小红书", desc: "Candice's mom. French-Canadian chic. 'Thinks coats are a personality trait.' Wardrobe sticker reveal.", status: "idea" },
+        { title: "Kenji's Closet", format: "Slideshow Reel", platform: "IG", desc: "The dad whose closet his son raids. Jazz/bossa nova music. Earth tone sticker parade.", status: "idea" },
+        { title: "Meet the Squad", format: "Carousel (6 slides)", platform: "IG + 小红书", desc: "Candice + Sloane + Zora + Mika. 4 wardrobes. 0 overlap. All sticker avatars together.", status: "idea" },
+        { title: "Zora's Color Game", format: "Slideshow Reel", platform: "IG + 小红书", desc: "Fast cuts, bold music. Her boldest sticker outfits. Let the colors do the talking.", status: "idea" },
+        { title: "Mika Doesn't Do Labels", format: "Carousel/Reel", platform: "IG + TikTok + 小红书", desc: "Gender-fluid showcase. Outfits across the masc/femme spectrum. Big market, underserved.", status: "idea" },
+        { title: "Like Father Like Son", format: "Carousel", platform: "IG + 小红书", desc: "Kenji look vs Kai wearing same piece differently. Style inheritance as storytelling.", status: "idea" },
       ]
     },
     {
-      name: "Phase 3 — Conversion",
+      name: "📸 IG — Candice's Daily (defer: merge into Sticker World initially)",
       cards: [
-        { title: "Want Your Own Wardrobe World?", format: "Carousel + CTA", platform: "IG + 小红书", desc: "Soft sell. 'We're building this.' Best-of compilation.", status: "idea" },
-        { title: "Your Style Has a Story", format: "Reel", platform: "IG + TikTok", desc: "Brand anthem. Emotional compilation of all characters. Music-driven.", status: "idea" },
+        { title: "Candice's Monday", format: "Photo + Stickers", platform: "IG + 小红书", desc: "Semi-real photo + avatar + garment sheet. Natural 'what I'm wearing today' energy. Weather + style notes.", status: "idea" },
+        { title: "Candice's Date Night", format: "Photo + Stickers", platform: "IG", desc: "Evening look. Avatar + sticker breakdown + recommendation. 'Silver Lake dinner, 65°F, no jacket needed.'", status: "idea" },
+        { title: "Candice's Weekend Errands", format: "Photo + Stickers", platform: "IG + 小红书", desc: "Casual, real, relatable. Coffee run outfit. Shows Put Together works for everyday, not just events.", status: "idea" },
+        { title: "From Real OOTD → Put Together World", format: "Before/After Reel", platform: "IG + TikTok", desc: "Real outfit photo (sincerelyjules) → Candice avatar wearing it → sticker breakdown. THE product demo.", status: "idea" },
+      ]
+    },
+    {
+      name: "🎬 TikTok — Transformation Stories (defer: launch Week 3-4)",
+      cards: [
+        { title: "The Breakup Glow-Up", format: "Larry Skill Slideshow", platform: "TikTok + Douyin", desc: "Story arc: upset post-breakup → discovers Put Together → wardrobe transformation → cute avatar pops → finds identity. Emotional hook.", status: "idea" },
+        { title: "From Invisible to Main Character", format: "Larry Skill Slideshow", platform: "TikTok + Douyin", desc: "Quiet person who 'never knows what to wear' → Put Together reveals their hidden style → avatar transformation. Confidence arc.", status: "idea" },
+        { title: "The Job Interview Glow-Up", format: "Larry Skill Slideshow", platform: "TikTok", desc: "Nervous about interview → Put Together builds the perfect outfit from existing wardrobe → sticker breakdown → confidence moment.", status: "idea" },
+        { title: "Product Feature Showcase", format: "Screen Recording + Overlay", platform: "TikTok", desc: "Quick demo: upload photo → stickers generated → avatar created → outfit recommended. Feature-first, 15 seconds.", status: "idea" },
+      ]
+    },
+    {
+      name: "🚀 Cross-Platform — Conversion",
+      cards: [
+        { title: "What Put Together Actually Is", format: "Carousel (6 slides)", platform: "ALL", desc: "First time fully explaining the app. By now people already know the world from X + Sticker World + stories.", status: "idea" },
+        { title: "Your Wardrobe, Your Mini-Me", format: "Reel", platform: "IG + TikTok", desc: "Mini-me generation sequence. Before/after. The 'that's ME' moment that converts.", status: "idea" },
+        { title: "Want Your Own Wardrobe World?", format: "Carousel + CTA", platform: "ALL", desc: "Best-of compilation from all accounts. Soft sell. 'We're building this. Join the first users.'", status: "idea" },
+        { title: "Your Style Has a Story", format: "Reel", platform: "IG + TikTok", desc: "Brand anthem. Emotional compilation of all characters across all accounts. Music-driven.", status: "idea" },
       ]
     }
   ],
   ideas: [
-    "3 pieces Candice rewears constantly",
-    "What Sophie wears when she wants to look expensive but not loud",
-    "Kai stealing from Kenji's closet again",
-    "Sloane's bag collection",
-    "Candice before dinner in Silver Lake",
-    "One outfit, styled 3 ways (swap feature demo)",
-    "From photo to sticker (pipeline reveal)",
-    "Dress Candice for ___ (interactive poll)",
-    "What your wardrobe says about you (style diary preview)",
-    "Put Together sees your style (love letters preview)",
-    "The piece that changed everything (single-item story)",
+    // ── Sticker World ideas ──
+    "3 pieces Candice rewears constantly (wardrobe staples)",
+    "What Sophie wears to look expensive but not loud",
+    "Kai stealing from Kenji's closet (family dynamic)",
+    "Sloane's bag collection (the accessory queen)",
+    "Candice before dinner in Silver Lake (location styling)",
     "Candice's weather check (Today tab showcase)",
-    "Real wardrobe, real person (beta user spotlight)",
-    "Candice's summer capsule (seasonal)",
-    "How we built Candice (behind-the-scenes, save for later)",
-    "穿搭日记 format for 小红书"
+    "Candice's summer capsule (seasonal content)",
+    "Sticker World holiday special (family gathering outfits)",
+    "Candice goes job hunting (professional wardrobe reveal)",
+    "穿搭日记 format for 小红书 (native format)",
+    // ── Product demo ideas ──
+    "One outfit, styled 3 ways (swap feature demo)",
+    "From photo to sticker (pipeline reveal — how stickers are made)",
+    "What your wardrobe says about you (style diary preview)",
+    "Put Together sees your style (love letters / AI analysis preview)",
+    "The piece that changed everything (single-item storytelling)",
+    "Real wardrobe, real person (beta user spotlight, when ready)",
+    // ── X/Twitter ideas ──
+    "Met Gala sticker roundup (annual tentpole)",
+    "Oscar red carpet sticker breakdown",
+    "Fashion week street style sticker series",
+    "World leaders at G7 — diplomatic style analysis",
+    "Celebrity airport outfits — 'travel fit check'",
+    "Sports stars at press conferences — unexpected style moments",
+    // ── TikTok transformation ideas ──
+    "The 'I own 50 things and wear 5' intervention",
+    "Couple outfit coordination (2 wardrobes, 1 date night)",
+    "Seasonal wardrobe transition (summer → fall in your closet)",
+    "Dress Candice for ___ (interactive poll / engagement bait)",
+    // ── Behind-the-scenes (save for later) ──
+    "How we built Candice (AI character creation BTS)",
+    "The sticker pipeline (technical but beautiful)",
+    "Building Put Together with AI — founder story (Gabrielle's channel crossover?)"
   ],
   cast: [
-    { char: "🌸 Candice Ishida", role: "Protagonist", rep: "Half-Japanese half-Canadian, F, 20s", style: "Versatile — all moods, all occasions", sources: "sincerelyjules, lai_tiffany", avatar: "✅ Face model exists" },
-    { char: "👩 Sophie Ishida", role: "Mom", rep: "Canadian (French), F, 50s, blonde, chic", style: "French-Canadian chic, structured, warm neutrals", sources: "Jeanne Andrea, rocky_barnes", avatar: "⬜ Not started" },
-    { char: "👨 Kenji Ishida", role: "Dad", rep: "Japanese, M, 50s, long hair, relaxed", style: "大叔 cool, earth tones, knits, suede", sources: "Original reference", avatar: "⬜ Not started" },
-    { char: "👦 Kai Ishida", role: "Older Brother", rep: "Half-Japanese half-Canadian, M, 20s", style: "Streetwear-editorial, wide-leg, layered", sources: "Original reference", avatar: "⬜ Not started" },
-    { char: "👧 Sloane", role: "Bestie", rep: "White, F, 20s, blonde bob, preppy", style: "Preppy-warm, neutrals, statement bags", sources: "Original reference, jasminrostock", avatar: "⬜ Not started" },
-    { char: "👧 Zora", role: "Bestie", rep: "Black, F, 20s, bold, editorial", style: "Bold color blocking, editorial risk-taking", sources: "cristinachenii", avatar: "⬜ Not started" },
-    { char: "🧑 Mika", role: "Bestie", rep: "Androgynous, non-binary, 20s", style: "Gender-fluid, masc/femme code-switch", sources: "claire_holt12", avatar: "⬜ Not started" },
+    { char: "🌸 Candice Ishida", role: "Protagonist / CMO of Put Together", rep: "Half-Japanese half-Canadian, F, 20s", style: "Versatile — all moods, all occasions. The proof that the app works across your whole life.", sources: "sincerelyjules, lai_tiffany", avatar: "✅ Face model exists" },
+    { char: "👩 Sophie Ishida", role: "Mom", rep: "Canadian (French), F, 50s, blonde, chic", style: "French-Canadian chic, structured, warm neutrals, plaid, pop-color bags", sources: "Jeanne Andrea, rocky_barnes", avatar: "⬜ Not started" },
+    { char: "👨 Kenji Ishida", role: "Dad", rep: "Japanese, M, 50s, long hair, relaxed", style: "大叔 cool, earth tones, knits, suede, bohemian. Was probably in a band in the 90s.", sources: "Original reference", avatar: "⬜ Not started" },
+    { char: "👦 Kai Ishida", role: "Older Brother", rep: "Half-Japanese half-Canadian, M, 20s", style: "Streetwear-editorial, wide-leg, layered. Raids dad's closet but adds edge.", sources: "Original reference", avatar: "⬜ Not started" },
+    { char: "👧 Sloane", role: "Bestie", rep: "White, F, 20s, blonde bob, preppy", style: "Preppy-warm, neutrals, denim staples, cognac leather, statement bags", sources: "Original reference, jasminrostock", avatar: "⬜ Not started" },
+    { char: "👧 Zora", role: "Bestie", rep: "Black, F, 20s, bold, editorial", style: "Bold color blocking, editorial risk-taking, high-fashion worn casually. Sets the trends.", sources: "cristinachenii", avatar: "⬜ Not started" },
+    { char: "🧑 Mika", role: "Bestie", rep: "Androgynous, non-binary, 20s", style: "Gender-fluid, masc/femme code-switch. Backwards caps to pleated trousers. The wardrobe has no borders.", sources: "claire_holt12", avatar: "⬜ Not started" },
   ],
   platforms: [
     {
-      name: "📸 Instagram",
-      handle: "(TBD — rebranding dead account)",
-      bio_en: "Non-tech founder. Zero coding skills. 2 apps on the App Store.\n15 years shipping products — everything I used to pay teams for, I now do with AI.",
-      bio_cn: "不会写代码，但上架了两个App。\n建筑、教育、科技——十几年，以前花钱养团队干的活，现在AI全搞定。",
-      pfp: "Candice avatar or app logo (TBD)",
-      formats: "Carousel: 1080×1350 (portrait)\nReel: 1080×1920 (9:16)\nStatic: 1080×1080\nMax carousel slides: 10",
-      notes: "Algorithm favors Reels. Slideshow reels count as video. Carousels get high save rates. Post 3-5x/week for growth phase."
+      name: "🐦 X/Twitter — Put Together Reacts",
+      handle: "(TBD — decide: @puttogether_style? @styledbyai? @candice_ishida?)",
+      bio_cn: "AI衣橱系统，每天给公众人物做穿搭点评。\n不毒舌，只看衣服。\n偶尔生成贴纸。",
+      bio_en: "AI wardrobe intelligence. We analyze public figures' outfits, check the weather, and make stickers.\nPolite. Opinionated. Never mean.\nBuilt by @puttogether",
+      pfp: "Put Together logo or Candice avatar (brand voice = app, not person)",
+      formats: "Image: 1600×900 (16:9) or 1200×1200\nThread: image + 2-3 tweets\nQuote tweet: react to news/event photos\nGIF: sticker assembly animation (future)",
+      notes: "LAUNCH FIRST — lowest production cost, highest viral ceiling. React to real events same-day. Voice: witty, polite, never mean. Generate sticker avatar + garment sheet for each subject. Aim for 1-2 posts/day during news cycles. Tag events/people for discovery. Legal: transformative art (illustration of outfit, not their face/likeness)."
     },
     {
-      name: "📕 小红书 (Xiaohongshu)",
-      handle: "(TBD)",
-      bio_en: "",
-      bio_cn: "不会写代码，但上架了两个App。\n以前花钱养团队干的活，现在AI全搞定。\nMarcel是我的AI搭档。\n（没错，广西乔布斯本人。）",
-      pfp: "Same as Instagram for cross-platform recognition",
-      formats: "Image post: 1080×1440 (3:4) or 1080×1080\nVideo: 1080×1920 (9:16)\nMax images per post: 18\n穿搭日记 format native here",
-      notes: "Chinese-first. 穿搭/OOTD tags essential. Community is fashion-savvy — quality > quantity. Hashtags matter more than IG."
+      name: "🎨 Instagram — Sticker World",
+      handle: "(TBD — rebranding dead account, 4 followers, Oct 2025)",
+      bio_cn: "Put Together 的贴纸世界 🌸\nCandice和她的家人朋友住在这里。\n每个角色都有自己的衣橱。\n来看看他们今天穿什么？",
+      bio_en: "Welcome to Put Together's sticker world 🌸\nMeet Candice, her family, and her friends.\nEvery character has a wardrobe. Every outfit has a story.",
+      pfp: "Candice sticker avatar on coral/cream background",
+      formats: "Carousel: 1080×1350 (portrait), 6-10 slides\nReel: 1080×1920 (9:16), 15-30 sec\nStatic: 1080×1080\nSticker scenes: illustrated compositions with multiple characters",
+      notes: "LAUNCH SECOND — builds the brand universe. Sticker-first content: characters, stories, scenes. Each post = avatars + garment stickers + style notes. Cross-post to 小红书. Post 3-4x/week. Candice's dailies fold into this account initially (don't split until there's enough content for two)."
     },
     {
-      name: "🎵 TikTok / Douyin",
-      handle: "(TBD)",
+      name: "📕 小红书 — Sticker World (mirror)",
+      handle: "(TBD — same brand as IG Sticker World)",
+      bio_cn: "Put Together 贴纸世界 🌸\n日系水彩风衣橱系统。\nCandice和她的家人朋友住在这里。\n每个角色都有自己的衣橱智能。\n来看看他们今天穿什么？",
       bio_en: "",
-      bio_cn: "不会写代码 · 两个App已上架 · 全靠AI",
-      pfp: "Same as Instagram",
-      formats: "Video: 1080×1920 (9:16)\n15-60 sec optimal\nHook in first 2 seconds",
-      notes: "Short-form only. Before/after transitions perform well. Sound/music selection matters. Slideshow reels with text overlay = low-effort high-return."
+      pfp: "Same as IG Sticker World",
+      formats: "Image: 1080×1440 (3:4) or 1080×1080\nVideo: 1080×1920 (9:16)\nMax images: 18 per post\n穿搭日记 format is native here",
+      notes: "Mirror of IG Sticker World, Chinese-first. Adapt captions to 小红书 tone (more conversational, more hashtags). 穿搭/OOTD/日系/贴纸 tags essential. Community is fashion-savvy. Can post same content as IG with Chinese captions."
     },
     {
-      name: "💬 WeChat 视频号",
+      name: "🎬 TikTok / Douyin — Transformation Stories",
       handle: "(TBD)",
+      bio_cn: "一个衣橱，一次蜕变 ✨\n用AI发现你的风格，找回自信。",
+      bio_en: "One wardrobe. One transformation. ✨\nAI-powered style discovery.",
+      pfp: "Same as IG or dedicated transformation-theme graphic",
+      formats: "Video: 1080×1920 (9:16)\n15-60 sec optimal\nLarry Skill slideshows: 6 slides, story arc\nHook in first 2 seconds\nBefore/after transitions",
+      notes: "LAUNCH THIRD (Week 3-4) — feature-first, conversion-oriented. Story arcs: breakup glow-up, confidence transformation, wardrobe intervention. Larry Skill 6-slide format as primary content type. Sound/music selection critical. Test ground for emotional hooks. Can repurpose best-performing content to IG Reels."
+    },
+    {
+      name: "📸 Instagram — Candice's Daily (DEFERRED)",
+      handle: "(TBD — separate account, launch when Sticker World has traction)",
+      bio_cn: "Candice Ishida 🌸 Put Together 的AI博主兼CMO\n半日半加，住在LA\n每天穿什么？我的日系水彩衣橱系统说了算。",
+      bio_en: "Candice Ishida 🌸 AI blogger & CMO of Put Together\nHalf-Japanese, half-Canadian, full-time LA\nMy wardrobe runs on anime watercolor sticker intelligence.",
+      pfp: "Candice semi-real photo (AI-generated, lifestyle feel)",
+      formats: "Same as IG Sticker World specs\nPhoto + avatar + garment sheet per post\nDaily posting cadence when active",
+      notes: "DEFERRED — merge Candice's dailies into Sticker World for now. Only split into a separate account when: (1) Sticker World has 1K+ followers, (2) you have enough Candice content to post daily, (3) the semi-real photo pipeline is fast enough. This account positions Candice as a real influencer with a twist — she's AI but transparent about it."
+    },
+    {
+      name: "💬 WeChat 视频号 (DEFERRED)",
+      handle: "(TBD)",
+      bio_cn: "Put Together · AI衣橱智能\n不会写代码的连续创业者。两个App，全靠AI。",
       bio_en: "",
-      bio_cn: "不会写代码的连续创业者。两个App，全靠AI。",
-      pfp: "Same as Instagram",
-      formats: "Video: 1080×1920 (9:16)\nImage post: 1080×1080\nLonger videos OK (1-5 min)",
-      notes: "Slightly older/professional audience. Can repurpose IG Reels. WeChat ecosystem = sharing via private messages is the main distribution. Quality > frequency."
+      pfp: "Same as IG",
+      formats: "Video: 1080×1920 (9:16)\nImage: 1080×1080\nLonger OK (1-5 min)",
+      notes: "DEFERRED — repurpose best content from other platforms. 视频号 audience skews older/professional. WeChat sharing = main distribution. Launch when you have a content library to seed it with. Low priority for now."
     }
   ]
 };
