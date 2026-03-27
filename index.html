@@ -62,6 +62,9 @@
   .todo-item .delete-btn { opacity: 0; font-size: 16px; color: #ccc; cursor: pointer; transition: opacity 0.2s; border: none; background: none; }
   .todo-item:hover .delete-btn { opacity: 1; }
   .todo-item .delete-btn:hover { color: var(--coral); }
+  .todo-item .new-badge { font-size: 10px; font-weight: 700; color: #fff; background: #e85d3a; border-radius: 4px; padding: 1px 6px; text-transform: uppercase; letter-spacing: 0.5px; animation: new-pulse 2s ease-in-out 3; white-space: nowrap; cursor: pointer; border: none; }
+  .todo-item .new-badge:hover { background: #c44a2a; }
+  @keyframes new-pulse { 0%,100% { opacity: 1; } 50% { opacity: 0.6; } }
   .add-btn { background: none; border: 1px dashed var(--border); border-radius: 8px; padding: 10px; font-size: 13px; color: #aaa; cursor: pointer; width: 100%; text-align: center; }
   .add-btn:hover { border-color: var(--coral); color: var(--coral); }
 
@@ -190,38 +193,39 @@
 <script>
 // ============ DATA ============
 const DEFAULT_DATA = {
+  _version: 3,
   todos: [
     // ── INDEPENDENT: can start RIGHT NOW, no prerequisites ──
-    { text: "🟢 DECIDE: X account handle — @puttogether_style? @candice_styles? @styledbyai?", priority: 1, deadline: "2026-03-28", done: false },
-    { text: "🟢 DECIDE: Sticker World IG handle — rebrand dead account", priority: 2, deadline: "2026-03-28", done: false },
-    { text: "🟢 DECIDE: X voice — Put Together brand? Candice persona? Nameless AI stylist?", priority: 3, deadline: "2026-03-28", done: false },
-    { text: "🟢 DECIDE: Celebrity sticker generation — legal comfort level (transformative art = likely fine, but confirm)", priority: 4, deadline: "2026-03-28", done: false },
-    { text: "🟢 Generate Candice base sticker avatar (Nodoguro — existing face model + nano-banana-pro)", priority: 5, deadline: "2026-03-29", done: false },
-    { text: "🟢 Generate Sophie sticker avatar (Nodoguro — Jeanne Andrea reference)", priority: 6, deadline: "2026-03-29", done: false },
-    { text: "🟢 Generate Kenji sticker avatar (Nodoguro — original reference photos)", priority: 7, deadline: "2026-03-29", done: false },
-    { text: "🟢 Set up X/Twitter account for 'Put Together Reacts'", priority: 8, deadline: "2026-03-29", done: false },
-    { text: "🟢 Rebrand dead IG account → Sticker World", priority: 9, deadline: "2026-03-29", done: false },
-    { text: "🟢 Pick 3-5 celebrity/political outfit photos from THIS WEEK for first X posts", priority: 10, deadline: "2026-03-30", done: false },
-    { text: "🟢 Collect scene sticker assets (popcorn, cinema, camping gear, coffee cups, etc.)", priority: 11, deadline: "2026-03-30", done: false },
-    { text: "🟢 Write X account bio + voice/tone guidelines", priority: 12, deadline: "2026-03-30", done: false },
-    { text: "🟢 Write Sticker World IG bio (Chinese + English)", priority: 13, deadline: "2026-03-30", done: false },
-    { text: "🟢 MARKETING BACKEND: Set up separate marketing codebase — flat-lay garment storage (don't delete after sticker conversion), character-specific wardrobe endpoints, shared auth to minimize logins (Gabrielle leading)", priority: 14, deadline: "2026-04-02", done: false },
-    { text: "🟢 PUT TOGETHER WEBSITE: Design & build landing page — hero (Candice + sticker world), product explanation, waitlist/download CTA. This is where all traffic points to.", priority: 15, deadline: "2026-04-05", done: false },
+    { _id: "t01", text: "🟢 DECIDE: X account handle — @puttogether_style? @candice_styles? @styledbyai?", priority: 1, deadline: "2026-03-28", done: false },
+    { _id: "t02", text: "🟢 DECIDE: Sticker World IG handle — rebrand dead account", priority: 2, deadline: "2026-03-28", done: false },
+    { _id: "t03", text: "🟢 DECIDE: X voice — Put Together brand? Candice persona? Nameless AI stylist?", priority: 3, deadline: "2026-03-28", done: false },
+    { _id: "t04", text: "🟢 DECIDE: Celebrity sticker generation — legal comfort level (transformative art = likely fine, but confirm)", priority: 4, deadline: "2026-03-28", done: false },
+    { _id: "t05", text: "🟢 Generate Candice base sticker avatar (Nodoguro — existing face model + nano-banana-pro)", priority: 5, deadline: "2026-03-29", done: false },
+    { _id: "t06", text: "🟢 Generate Sophie sticker avatar (Nodoguro — Jeanne Andrea reference)", priority: 6, deadline: "2026-03-29", done: false },
+    { _id: "t07", text: "🟢 Generate Kenji sticker avatar (Nodoguro — original reference photos)", priority: 7, deadline: "2026-03-29", done: false },
+    { _id: "t08", text: "🟢 Set up X/Twitter account for 'Put Together Reacts'", priority: 8, deadline: "2026-03-29", done: false },
+    { _id: "t09", text: "🟢 Rebrand dead IG account → Sticker World", priority: 9, deadline: "2026-03-29", done: false },
+    { _id: "t10", text: "🟢 Pick 3-5 celebrity/political outfit photos from THIS WEEK for first X posts", priority: 10, deadline: "2026-03-30", done: false },
+    { _id: "t11", text: "🟢 Collect scene sticker assets (popcorn, cinema, camping gear, coffee cups, etc.)", priority: 11, deadline: "2026-03-30", done: false },
+    { _id: "t12", text: "🟢 Write X account bio + voice/tone guidelines", priority: 12, deadline: "2026-03-30", done: false },
+    { _id: "t13", text: "🟢 Write Sticker World IG bio (Chinese + English)", priority: 13, deadline: "2026-03-30", done: false },
+    { _id: "t14", text: "🟢 MARKETING BACKEND: Set up separate marketing codebase — flat-lay garment storage (don't delete after sticker conversion), character-specific wardrobe endpoints, shared auth to minimize logins (Gabrielle leading)", priority: 14, deadline: "2026-04-02", done: false },
+    { _id: "t15", text: "🟢 PUT TOGETHER WEBSITE: Design & build landing page — hero (Candice + sticker world), product explanation, waitlist/download CTA. This is where all traffic points to.", priority: 15, deadline: "2026-04-05", done: false },
     // ── DEPENDENT: needs something above first ──
-    { text: "🟡 First X reaction post (needs: X account + celebrity photos + voice decision)", priority: 16, deadline: "2026-03-31", done: false },
-    { text: "🟡 Generate celebrity stickers for X posts (needs: legal decision + celebrity photos)", priority: 17, deadline: "2026-03-31", done: false },
-    { text: "🟡 'Meet Candice' sticker carousel for IG (needs: Candice avatar)", priority: 18, deadline: "2026-04-01", done: false },
-    { text: "🟡 Design garment sheet template (needs: Candice avatar + sample stickers)", priority: 19, deadline: "2026-04-01", done: false },
-    { text: "🟡 First Sticker World story: 'Candice & Sophie watch Barbie' (needs: both avatars + scene stickers)", priority: 20, deadline: "2026-04-03", done: false },
-    { text: "🟡 Generate remaining cast avatars: Kai, Sloane, Zora, Mika (needs: pipeline validated with Candice)", priority: 21, deadline: "2026-04-05", done: false },
-    { text: "🟡 TRAFFIC STRATEGY: Until website is live, X bio → linktree or carrd with app store link + IG. IG bio → same. Decide interim landing.", priority: 22, deadline: "2026-03-31", done: true },
-    { text: "🟢 DECIDE: Base IG handle for Sticker World (hub account all traffic funnels to) — @PT.stickerworld?", priority: 24, deadline: "2026-03-28", done: false },
-    { text: "🟢 BUILD: Full Put Together website (Next.js 14 + Tailwind + Framer Motion) — hero, Candice wardrobe, daily forecast, meet Candice, magic moment demo, waitlist. Replace interim landing.", priority: 25, deadline: "2026-04-05", done: false },
-    { text: "🟢 INTERIM LANDING PAGE: Deploy catch-interest page with waitlist email capture ✅ LIVE at landing-phi-teal.vercel.app", priority: 26, deadline: "2026-03-27", done: true },
-    { text: "🟢 Wire waitlist to Supabase backend (currently localStorage only)", priority: 27, deadline: "2026-04-02", done: false },
-    { text: "🟢 Replace emoji placeholders on landing page with real cast artwork", priority: 28, deadline: "2026-04-05", done: false },
-    { text: "🟢 Point custom domain to landing page (puttogether.world? puttogether.style?)", priority: 29, deadline: "2026-04-05", done: false },
-    { text: "🔴 TikTok transformation content (needs: multiple avatars + garment sheets + Larry skill setup)", priority: 23, deadline: "2026-04-12", done: false },
+    { _id: "t16", text: "🟡 First X reaction post (needs: X account + celebrity photos + voice decision)", priority: 16, deadline: "2026-03-31", done: false },
+    { _id: "t17", text: "🟡 Generate celebrity stickers for X posts (needs: legal decision + celebrity photos)", priority: 17, deadline: "2026-03-31", done: false },
+    { _id: "t18", text: "🟡 'Meet Candice' sticker carousel for IG (needs: Candice avatar)", priority: 18, deadline: "2026-04-01", done: false },
+    { _id: "t19", text: "🟡 Design garment sheet template (needs: Candice avatar + sample stickers)", priority: 19, deadline: "2026-04-01", done: false },
+    { _id: "t20", text: "🟡 First Sticker World story: 'Candice & Sophie watch Barbie' (needs: both avatars + scene stickers)", priority: 20, deadline: "2026-04-03", done: false },
+    { _id: "t21", text: "🟡 Generate remaining cast avatars: Kai, Sloane, Zora, Mika (needs: pipeline validated with Candice)", priority: 21, deadline: "2026-04-05", done: false },
+    { _id: "t22", text: "🟡 TRAFFIC STRATEGY: Until website is live, X bio → linktree or carrd with app store link + IG. IG bio → same. Decide interim landing.", priority: 22, deadline: "2026-03-31", done: true },
+    { _id: "t24", text: "🟢 DECIDE: Base IG handle for Sticker World (hub account all traffic funnels to) — @PT.stickerworld?", priority: 24, deadline: "2026-03-28", done: false },
+    { _id: "t25", text: "🟢 BUILD: Full Put Together website (Next.js 14 + Tailwind + Framer Motion) — hero, Candice wardrobe, daily forecast, meet Candice, magic moment demo, waitlist. Replace interim landing.", priority: 25, deadline: "2026-04-05", done: false },
+    { _id: "t26", text: "🟢 INTERIM LANDING PAGE: Deploy catch-interest page with waitlist email capture ✅ LIVE at landing-phi-teal.vercel.app", priority: 26, deadline: "2026-03-27", done: true },
+    { _id: "t27", text: "🟢 Wire waitlist to Supabase backend (currently localStorage only)", priority: 27, deadline: "2026-04-02", done: false },
+    { _id: "t28", text: "🟢 Replace emoji placeholders on landing page with real cast artwork", priority: 28, deadline: "2026-04-05", done: false },
+    { _id: "t29", text: "🟢 Point custom domain to landing page (puttogether.world? puttogether.style?)", priority: 29, deadline: "2026-04-05", done: false },
+    { _id: "t23", text: "🔴 TikTok transformation content (needs: multiple avatars + garment sheets + Larry skill setup)", priority: 23, deadline: "2026-04-12", done: false },
   ],
   phases: [
     {
@@ -383,7 +387,30 @@ const DEFAULT_DATA = {
 let data;
 try {
   const saved = localStorage.getItem('pt-marketing-board');
-  data = saved ? JSON.parse(saved) : JSON.parse(JSON.stringify(DEFAULT_DATA));
+  if (saved) {
+    data = JSON.parse(saved);
+    // Merge new defaults if version changed
+    if ((data._version || 0) < DEFAULT_DATA._version) {
+      // Merge todos: keep user edits, add new ones tagged NEW!
+      const existingIds = new Set((data.todos || []).map(t => t._id).filter(Boolean));
+      const existingTexts = new Set((data.todos || []).map(t => t.text.slice(0, 60)));
+      DEFAULT_DATA.todos.forEach(dt => {
+        const isNew = dt._id ? !existingIds.has(dt._id) : !existingTexts.has(dt.text.slice(0, 60));
+        if (isNew) {
+          data.todos.push({ ...dt, _isNew: true });
+        }
+      });
+      // Merge ideas: add missing ones
+      const existingIdeas = new Set(data.ideas || []);
+      (DEFAULT_DATA.ideas || []).forEach(idea => {
+        if (!existingIdeas.has(idea)) data.ideas.push(idea);
+      });
+      data._version = DEFAULT_DATA._version;
+      localStorage.setItem('pt-marketing-board', JSON.stringify(data));
+    }
+  } else {
+    data = JSON.parse(JSON.stringify(DEFAULT_DATA));
+  }
 } catch(e) {
   data = JSON.parse(JSON.stringify(DEFAULT_DATA));
 }
@@ -400,6 +427,8 @@ function saveAll() {
 function collectData() {
   // Todos
   data.todos = [...document.querySelectorAll('#todoList .todo-item')].map((el, i) => ({
+    _id: data.todos[i]?._id || '',
+    _isNew: data.todos[i]?._isNew || false,
     text: el.querySelector('.todo-text').textContent.trim(),
     priority: i + 1,
     deadline: data.todos[i]?.deadline || '',
@@ -480,9 +509,11 @@ function renderTodos() {
     el.className = 'todo-item' + (todo.done ? ' done' : '');
     el.draggable = true;
     const dlClass = todo.done ? '' : deadlineClass(todo.deadline);
+    const newBadge = todo._isNew ? `<button class="new-badge" onclick="dismissNew(${i})" title="Click to dismiss">NEW!</button>` : '';
     el.innerHTML = `
       <button class="done-btn" onclick="toggleDone(${i})" title="Mark ${todo.done ? 'undone' : 'done'}">${todo.done ? '✅' : '⬜'}</button>
       <span class="priority">${i + 1}</span>
+      ${newBadge}
       <span class="todo-text" contenteditable="true">${todo.text}</span>
       <span class="todo-deadline ${dlClass}" onclick="editDeadline(${i})" title="Click to change deadline">${todo.deadline ? formatDeadline(todo.deadline) : 'no date'}</span>
       <button class="delete-btn" onclick="deleteTodo(${i})">×</button>
@@ -509,6 +540,10 @@ function addTodo() {
 }
 function deleteTodo(i) {
   data.todos.splice(i, 1);
+  renderTodos();
+}
+function dismissNew(i) {
+  data.todos[i]._isNew = false;
   renderTodos();
 }
 
