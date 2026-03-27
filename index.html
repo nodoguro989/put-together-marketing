@@ -1,0 +1,618 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Put Together — Marketing Board</title>
+<style>
+  :root {
+    --coral: #D0705A;
+    --warm-grey: #E5E1DD;
+    --black: #111111;
+    --cream: #FAF6F1;
+    --card-bg: #fff;
+    --border: #e0dcd7;
+    --shadow: rgba(0,0,0,0.06);
+    --green: #4a9;
+    --amber: #d4a;
+    --blue: #5a8cc8;
+  }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body { font-family: 'Inter', -apple-system, system-ui, sans-serif; background: var(--cream); color: var(--black); min-height:100vh; }
+
+  /* HEADER */
+  .header { background: var(--black); color: #fff; padding: 20px 32px; display: flex; align-items: center; justify-content: space-between; }
+  .header h1 { font-size: 20px; font-weight: 600; letter-spacing: -0.5px; }
+  .header h1 span { color: var(--coral); }
+  .header .save-btn { background: var(--coral); color: #fff; border: none; padding: 8px 20px; border-radius: 6px; font-size: 13px; cursor: pointer; font-weight: 500; }
+  .header .save-btn:hover { opacity: 0.9; }
+
+  /* TABS */
+  .tabs { display: flex; background: #fff; border-bottom: 1px solid var(--border); padding: 0 32px; gap: 0; }
+  .tab { padding: 14px 24px; font-size: 13px; font-weight: 500; cursor: pointer; border-bottom: 2px solid transparent; color: #888; transition: all 0.2s; }
+  .tab:hover { color: var(--black); }
+  .tab.active { color: var(--coral); border-bottom-color: var(--coral); }
+
+  /* CONTENT */
+  .content { max-width: 1200px; margin: 0 auto; padding: 24px 32px; }
+  .sheet { display: none; }
+  .sheet.active { display: block; }
+
+  /* SECTION LABELS */
+  .section-label { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; color: #999; margin: 24px 0 12px; display: flex; align-items: center; gap: 8px; }
+  .section-label:first-child { margin-top: 0; }
+  .section-label .line { flex: 1; height: 1px; background: var(--border); }
+
+  /* PRIORITY TODOS */
+  .todo-list { display: flex; flex-direction: column; gap: 6px; margin-bottom: 24px; }
+  .todo-item { display: flex; align-items: center; gap: 10px; background: #fff; border: 1px solid var(--border); border-radius: 8px; padding: 10px 14px; cursor: grab; transition: box-shadow 0.2s; }
+  .todo-item:active { cursor: grabbing; }
+  .todo-item.dragging { opacity: 0.5; box-shadow: 0 4px 16px var(--shadow); }
+  .todo-item .priority { font-size: 11px; font-weight: 700; color: #fff; background: var(--coral); border-radius: 4px; padding: 2px 8px; min-width: 24px; text-align: center; }
+  .todo-item .todo-text { flex: 1; font-size: 14px; outline: none; border: none; background: transparent; }
+  .todo-item .delete-btn { opacity: 0; font-size: 16px; color: #ccc; cursor: pointer; transition: opacity 0.2s; border: none; background: none; }
+  .todo-item:hover .delete-btn { opacity: 1; }
+  .todo-item .delete-btn:hover { color: var(--coral); }
+  .add-btn { background: none; border: 1px dashed var(--border); border-radius: 8px; padding: 10px; font-size: 13px; color: #aaa; cursor: pointer; width: 100%; text-align: center; }
+  .add-btn:hover { border-color: var(--coral); color: var(--coral); }
+
+  /* PHASE COLUMNS */
+  .phases { display: flex; gap: 16px; margin-bottom: 24px; overflow-x: auto; }
+  .phase { flex: 1; min-width: 300px; background: #f7f5f2; border-radius: 10px; padding: 16px; }
+  .phase-header { font-size: 13px; font-weight: 600; margin-bottom: 12px; display: flex; align-items: center; justify-content: space-between; }
+  .phase-header .badge { font-size: 11px; background: var(--coral); color: #fff; border-radius: 10px; padding: 2px 8px; }
+  .card-list { display: flex; flex-direction: column; gap: 8px; min-height: 60px; }
+  .card { background: #fff; border: 1px solid var(--border); border-radius: 8px; padding: 12px; cursor: grab; transition: box-shadow 0.2s; }
+  .card:active { cursor: grabbing; }
+  .card.dragging { opacity: 0.5; }
+  .card .card-title { font-size: 14px; font-weight: 600; margin-bottom: 4px; outline: none; }
+  .card .card-meta { font-size: 12px; color: #888; display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 6px; }
+  .card .card-meta span { background: var(--warm-grey); padding: 2px 8px; border-radius: 4px; }
+  .card .card-desc { font-size: 12px; color: #666; outline: none; }
+  .card .card-status { margin-top: 8px; display: flex; gap: 4px; }
+  .status-dot { width: 8px; height: 8px; border-radius: 50%; cursor: pointer; }
+  .status-dot.idea { background: #ddd; }
+  .status-dot.progress { background: #f0c040; }
+  .status-dot.ready { background: #5ab; }
+  .status-dot.posted { background: var(--green); }
+  .status-dot.active { outline: 2px solid var(--black); outline-offset: 1px; }
+  .card .card-actions { display: flex; justify-content: flex-end; margin-top: 6px; }
+  .card .card-delete { opacity: 0; font-size: 14px; color: #ccc; cursor: pointer; border: none; background: none; }
+  .card:hover .card-delete { opacity: 1; }
+
+  /* IDEA BANK */
+  .idea-bank { display: flex; flex-direction: column; gap: 4px; }
+  .idea-item { display: flex; align-items: center; gap: 8px; padding: 8px 12px; background: #fff; border: 1px solid var(--border); border-radius: 6px; cursor: grab; font-size: 13px; }
+  .idea-item:active { cursor: grabbing; }
+  .idea-item.dragging { opacity: 0.5; }
+  .idea-text { flex: 1; outline: none; border: none; background: transparent; font-size: 13px; }
+  .idea-item .promote-btn { font-size: 16px; color: #ccc; cursor: pointer; border: none; background: none; }
+  .idea-item .promote-btn:hover { color: var(--coral); }
+  .idea-item .delete-btn { opacity: 0; font-size: 16px; color: #ccc; cursor: pointer; border: none; background: none; }
+  .idea-item:hover .delete-btn { opacity: 1; }
+
+  /* CAST TABLE */
+  table { width: 100%; border-collapse: collapse; background: #fff; border-radius: 10px; overflow: hidden; }
+  th { background: var(--black); color: #fff; padding: 12px 16px; font-size: 12px; font-weight: 600; text-align: left; text-transform: uppercase; letter-spacing: 0.5px; }
+  td { padding: 12px 16px; border-bottom: 1px solid var(--border); font-size: 14px; }
+  td[contenteditable] { outline: none; }
+  td[contenteditable]:focus { background: #faf8f5; }
+  tr:last-child td { border-bottom: none; }
+  .avatar-cell { display: flex; align-items: center; gap: 10px; }
+  .avatar-dot { width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 14px; }
+  .table-actions { margin-top: 8px; }
+
+  /* PLATFORM CARDS */
+  .platform-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(340px, 1fr)); gap: 16px; }
+  .platform-card { background: #fff; border: 1px solid var(--border); border-radius: 10px; padding: 20px; }
+  .platform-card h3 { font-size: 15px; font-weight: 600; margin-bottom: 12px; display: flex; align-items: center; gap: 8px; }
+  .platform-card .field { margin-bottom: 10px; }
+  .platform-card .field-label { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; color: #999; margin-bottom: 4px; }
+  .platform-card .field-value { font-size: 13px; padding: 8px 10px; border: 1px solid var(--border); border-radius: 6px; outline: none; min-height: 32px; width: 100%; }
+  .platform-card .field-value:focus { border-color: var(--coral); }
+  textarea.field-value { resize: vertical; min-height: 60px; font-family: inherit; }
+  .spec-list { font-size: 12px; color: #666; }
+  .spec-list li { margin-bottom: 4px; }
+
+  /* DRAG OVER FEEDBACK */
+  .drag-over { border: 2px dashed var(--coral) !important; background: #fef8f6 !important; }
+
+  /* RESPONSIVE */
+  @media (max-width: 768px) {
+    .content { padding: 16px; }
+    .phases { flex-direction: column; }
+    .phase { min-width: unset; }
+    .platform-grid { grid-template-columns: 1fr; }
+    .tabs { overflow-x: auto; }
+    .tab { white-space: nowrap; padding: 12px 16px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <h1><span>Put Together</span> — Marketing Board</h1>
+  <button class="save-btn" onclick="saveAll()">💾 Save Changes</button>
+</div>
+
+<div class="tabs">
+  <div class="tab active" data-sheet="board">📋 Content Board</div>
+  <div class="tab" data-sheet="cast">👥 Cast & Sources</div>
+  <div class="tab" data-sheet="platforms">📱 Platforms & Specs</div>
+</div>
+
+<!-- SHEET 1: CONTENT BOARD -->
+<div class="content">
+<div class="sheet active" id="board">
+
+  <div class="section-label">🔥 Immediate To-Dos (drag to reorder) <span class="line"></span></div>
+  <div class="todo-list" id="todoList"></div>
+  <button class="add-btn" onclick="addTodo()">+ Add to-do</button>
+
+  <div class="section-label" style="margin-top:32px">📌 Posts by Phase (drag cards between phases) <span class="line"></span></div>
+  <div class="phases" id="phases"></div>
+
+  <div class="section-label" style="margin-top:32px">💡 Idea Bank (click ↑ to promote to a phase) <span class="line"></span></div>
+  <div class="idea-bank" id="ideaBank"></div>
+  <button class="add-btn" style="margin-top:8px" onclick="addIdea()">+ Add idea</button>
+
+</div>
+
+<!-- SHEET 2: CAST -->
+<div class="sheet" id="cast">
+  <div class="section-label">👥 The Ishida Family & Friends <span class="line"></span></div>
+  <table id="castTable">
+    <thead>
+      <tr><th>Character</th><th>Role</th><th>Rep (Gender & Style)</th><th>Style Lane</th><th>Sources / Inspiration</th><th>Avatar Status</th></tr>
+    </thead>
+    <tbody id="castBody"></tbody>
+  </table>
+  <button class="add-btn table-actions" onclick="addCastRow()">+ Add character</button>
+</div>
+
+<!-- SHEET 3: PLATFORMS -->
+<div class="sheet" id="platforms">
+  <div class="section-label">📱 Platform Accounts & Specs <span class="line"></span></div>
+  <div class="platform-grid" id="platformGrid"></div>
+  <button class="add-btn" style="margin-top:16px" onclick="addPlatform()">+ Add platform</button>
+</div>
+</div>
+
+<script>
+// ============ DATA ============
+const DEFAULT_DATA = {
+  todos: [
+    { text: "Generate Candice avatar variations (4-5 outfits from sincerelyjules)", priority: 1 },
+    { text: "Set up Put Together Instagram account (rebrand dead account)", priority: 2 },
+    { text: "Create 'Meet Candice' carousel (6 slides)", priority: 3 },
+    { text: "Generate Sophie avatar from Jeanne Andrea reference", priority: 4 },
+    { text: "Generate Kenji avatar from reference photos", priority: 5 },
+    { text: "Draft captions for Week 1 posts (Candice intro + wardrobe + before/after)", priority: 6 },
+    { text: "Finalize Instagram bio (Chinese + English)", priority: 7 },
+  ],
+  phases: [
+    {
+      name: "Phase 1 — Establish the World",
+      cards: [
+        { title: "Meet Candice", format: "Carousel", platform: "IG + 小红书", desc: "Intro her personality, not the app. 'She lives in LA. She has opinions about coffee and coats.'", status: "idea" },
+        { title: "Candice's Wardrobe in 6 Stickers", format: "Slideshow Reel", platform: "IG + TikTok", desc: "6 sticker pieces assembling on screen. Warm lo-fi music. Text overlay: piece names.", status: "idea" },
+        { title: "From Real OOTD → Put Together World", format: "Before/After Reel", platform: "IG + TikTok", desc: "Real outfit photo → avatar wearing it → sticker breakdown. THE product demo disguised as content.", status: "idea" },
+        { title: "Meet Sophie", format: "Carousel", platform: "IG + 小红书", desc: "Candice's mom. French-Canadian. Thinks coats are a personality trait.", status: "idea" },
+        { title: "Kenji's Closet", format: "Slideshow Reel", platform: "IG", desc: "The dad whose closet his son raids. Jazz/bossa nova music.", status: "idea" },
+        { title: "Like Father Like Son", format: "Carousel", platform: "IG + 小红书", desc: "Kenji look vs Kai wearing similar piece differently. Style inheritance.", status: "idea" },
+        { title: "Meet the Squad", format: "Carousel", platform: "IG + 小红书", desc: "Candice + her 3 people. 4 wardrobes. 0 overlap.", status: "idea" },
+        { title: "Zora's Color Game", format: "Slideshow Reel", platform: "IG + TikTok", desc: "Fast cuts, bold music. Let the colors do the talking.", status: "idea" },
+        { title: "Mika Doesn't Do Labels", format: "Carousel/Reel", platform: "IG + TikTok + 小红书", desc: "Gender-fluid showcase. Big market, underserved.", status: "idea" },
+      ]
+    },
+    {
+      name: "Phase 2 — Introduce Mechanism",
+      cards: [
+        { title: "What Put Together Actually Is", format: "Carousel", platform: "IG + 小红书", desc: "First time naming the app. By now people already know the world.", status: "idea" },
+        { title: "Your Wardrobe, Your Mini-Me", format: "Reel", platform: "IG + TikTok", desc: "Mini-me generation sequence. The 'that's ME' moment.", status: "idea" },
+        { title: "How Candice Gets Dressed", format: "Slideshow Reel", platform: "IG + TikTok", desc: "Today tab walkthrough as Candice's morning routine. Not a tutorial.", status: "idea" },
+      ]
+    },
+    {
+      name: "Phase 3 — Conversion",
+      cards: [
+        { title: "Want Your Own Wardrobe World?", format: "Carousel + CTA", platform: "IG + 小红书", desc: "Soft sell. 'We're building this.' Best-of compilation.", status: "idea" },
+        { title: "Your Style Has a Story", format: "Reel", platform: "IG + TikTok", desc: "Brand anthem. Emotional compilation of all characters. Music-driven.", status: "idea" },
+      ]
+    }
+  ],
+  ideas: [
+    "3 pieces Candice rewears constantly",
+    "What Sophie wears when she wants to look expensive but not loud",
+    "Kai stealing from Kenji's closet again",
+    "Sloane's bag collection",
+    "Candice before dinner in Silver Lake",
+    "One outfit, styled 3 ways (swap feature demo)",
+    "From photo to sticker (pipeline reveal)",
+    "Dress Candice for ___ (interactive poll)",
+    "What your wardrobe says about you (style diary preview)",
+    "Put Together sees your style (love letters preview)",
+    "The piece that changed everything (single-item story)",
+    "Candice's weather check (Today tab showcase)",
+    "Real wardrobe, real person (beta user spotlight)",
+    "Candice's summer capsule (seasonal)",
+    "How we built Candice (behind-the-scenes, save for later)",
+    "穿搭日记 format for 小红书"
+  ],
+  cast: [
+    { char: "🌸 Candice Ishida", role: "Protagonist", rep: "Half-Japanese half-Canadian, F, 20s", style: "Versatile — all moods, all occasions", sources: "sincerelyjules, lai_tiffany", avatar: "✅ Face model exists" },
+    { char: "👩 Sophie Ishida", role: "Mom", rep: "Canadian (French), F, 50s, blonde, chic", style: "French-Canadian chic, structured, warm neutrals", sources: "Jeanne Andrea, rocky_barnes", avatar: "⬜ Not started" },
+    { char: "👨 Kenji Ishida", role: "Dad", rep: "Japanese, M, 50s, long hair, relaxed", style: "大叔 cool, earth tones, knits, suede", sources: "Original reference", avatar: "⬜ Not started" },
+    { char: "👦 Kai Ishida", role: "Older Brother", rep: "Half-Japanese half-Canadian, M, 20s", style: "Streetwear-editorial, wide-leg, layered", sources: "Original reference", avatar: "⬜ Not started" },
+    { char: "👧 Sloane", role: "Bestie", rep: "White, F, 20s, blonde bob, preppy", style: "Preppy-warm, neutrals, statement bags", sources: "Original reference, jasminrostock", avatar: "⬜ Not started" },
+    { char: "👧 Zora", role: "Bestie", rep: "Black, F, 20s, bold, editorial", style: "Bold color blocking, editorial risk-taking", sources: "cristinachenii", avatar: "⬜ Not started" },
+    { char: "🧑 Mika", role: "Bestie", rep: "Androgynous, non-binary, 20s", style: "Gender-fluid, masc/femme code-switch", sources: "claire_holt12", avatar: "⬜ Not started" },
+  ],
+  platforms: [
+    {
+      name: "📸 Instagram",
+      handle: "(TBD — rebranding dead account)",
+      bio_en: "Non-tech founder. Zero coding skills. 2 apps on the App Store.\n15 years shipping products — everything I used to pay teams for, I now do with AI.",
+      bio_cn: "不会写代码，但上架了两个App。\n建筑、教育、科技——十几年，以前花钱养团队干的活，现在AI全搞定。",
+      pfp: "Candice avatar or app logo (TBD)",
+      formats: "Carousel: 1080×1350 (portrait)\nReel: 1080×1920 (9:16)\nStatic: 1080×1080\nMax carousel slides: 10",
+      notes: "Algorithm favors Reels. Slideshow reels count as video. Carousels get high save rates. Post 3-5x/week for growth phase."
+    },
+    {
+      name: "📕 小红书 (Xiaohongshu)",
+      handle: "(TBD)",
+      bio_en: "",
+      bio_cn: "不会写代码，但上架了两个App。\n以前花钱养团队干的活，现在AI全搞定。\nMarcel是我的AI搭档。\n（没错，广西乔布斯本人。）",
+      pfp: "Same as Instagram for cross-platform recognition",
+      formats: "Image post: 1080×1440 (3:4) or 1080×1080\nVideo: 1080×1920 (9:16)\nMax images per post: 18\n穿搭日记 format native here",
+      notes: "Chinese-first. 穿搭/OOTD tags essential. Community is fashion-savvy — quality > quantity. Hashtags matter more than IG."
+    },
+    {
+      name: "🎵 TikTok / Douyin",
+      handle: "(TBD)",
+      bio_en: "",
+      bio_cn: "不会写代码 · 两个App已上架 · 全靠AI",
+      pfp: "Same as Instagram",
+      formats: "Video: 1080×1920 (9:16)\n15-60 sec optimal\nHook in first 2 seconds",
+      notes: "Short-form only. Before/after transitions perform well. Sound/music selection matters. Slideshow reels with text overlay = low-effort high-return."
+    },
+    {
+      name: "💬 WeChat 视频号",
+      handle: "(TBD)",
+      bio_en: "",
+      bio_cn: "不会写代码的连续创业者。两个App，全靠AI。",
+      pfp: "Same as Instagram",
+      formats: "Video: 1080×1920 (9:16)\nImage post: 1080×1080\nLonger videos OK (1-5 min)",
+      notes: "Slightly older/professional audience. Can repurpose IG Reels. WeChat ecosystem = sharing via private messages is the main distribution. Quality > frequency."
+    }
+  ]
+};
+
+let data;
+try {
+  const saved = localStorage.getItem('pt-marketing-board');
+  data = saved ? JSON.parse(saved) : JSON.parse(JSON.stringify(DEFAULT_DATA));
+} catch(e) {
+  data = JSON.parse(JSON.stringify(DEFAULT_DATA));
+}
+
+// ============ SAVE ============
+function saveAll() {
+  collectData();
+  localStorage.setItem('pt-marketing-board', JSON.stringify(data));
+  const btn = document.querySelector('.save-btn');
+  btn.textContent = '✅ Saved!';
+  setTimeout(() => btn.textContent = '💾 Save Changes', 1500);
+}
+
+function collectData() {
+  // Todos
+  data.todos = [...document.querySelectorAll('#todoList .todo-item')].map((el, i) => ({
+    text: el.querySelector('.todo-text').textContent.trim(),
+    priority: i + 1
+  }));
+  // Phases
+  data.phases = [...document.querySelectorAll('.phase')].map(phase => ({
+    name: phase.querySelector('.phase-header span').textContent.trim(),
+    cards: [...phase.querySelectorAll('.card')].map(card => ({
+      title: card.querySelector('.card-title').textContent.trim(),
+      format: card.dataset.format || '',
+      platform: card.dataset.platform || '',
+      desc: card.querySelector('.card-desc').textContent.trim(),
+      status: card.dataset.status || 'idea'
+    }))
+  }));
+  // Ideas
+  data.ideas = [...document.querySelectorAll('#ideaBank .idea-item')].map(el =>
+    el.querySelector('.idea-text').textContent.trim()
+  ).filter(Boolean);
+  // Cast
+  data.cast = [...document.querySelectorAll('#castBody tr')].map(row => {
+    const cells = row.querySelectorAll('td');
+    return {
+      char: cells[0]?.textContent.trim() || '',
+      role: cells[1]?.textContent.trim() || '',
+      rep: cells[2]?.textContent.trim() || '',
+      style: cells[3]?.textContent.trim() || '',
+      sources: cells[4]?.textContent.trim() || '',
+      avatar: cells[5]?.textContent.trim() || ''
+    };
+  });
+  // Platforms
+  data.platforms = [...document.querySelectorAll('.platform-card')].map(card => {
+    const fields = card.querySelectorAll('.field-value');
+    return {
+      name: card.querySelector('h3').textContent.trim(),
+      handle: fields[0]?.value || fields[0]?.textContent || '',
+      bio_cn: fields[1]?.value || fields[1]?.textContent || '',
+      bio_en: fields[2]?.value || fields[2]?.textContent || '',
+      pfp: fields[3]?.value || fields[3]?.textContent || '',
+      formats: fields[4]?.value || fields[4]?.textContent || '',
+      notes: fields[5]?.value || fields[5]?.textContent || ''
+    };
+  });
+}
+
+// ============ TABS ============
+document.querySelectorAll('.tab').forEach(tab => {
+  tab.addEventListener('click', () => {
+    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+    document.querySelectorAll('.sheet').forEach(s => s.classList.remove('active'));
+    tab.classList.add('active');
+    document.getElementById(tab.dataset.sheet).classList.add('active');
+  });
+});
+
+// ============ RENDER TODOS ============
+function renderTodos() {
+  const list = document.getElementById('todoList');
+  list.innerHTML = '';
+  data.todos.forEach((todo, i) => {
+    const el = document.createElement('div');
+    el.className = 'todo-item';
+    el.draggable = true;
+    el.innerHTML = `
+      <span class="priority">${i + 1}</span>
+      <span class="todo-text" contenteditable="true">${todo.text}</span>
+      <button class="delete-btn" onclick="deleteTodo(${i})">×</button>
+    `;
+    setupDrag(el, list, 'todo-item');
+    list.appendChild(el);
+  });
+}
+function addTodo() {
+  data.todos.push({ text: 'New task...', priority: data.todos.length + 1 });
+  renderTodos();
+}
+function deleteTodo(i) {
+  data.todos.splice(i, 1);
+  renderTodos();
+}
+
+// ============ RENDER PHASES ============
+function renderPhases() {
+  const container = document.getElementById('phases');
+  container.innerHTML = '';
+  data.phases.forEach((phase, pi) => {
+    const phaseEl = document.createElement('div');
+    phaseEl.className = 'phase';
+    phaseEl.innerHTML = `
+      <div class="phase-header">
+        <span>${phase.name}</span>
+        <span class="badge">${phase.cards.length}</span>
+      </div>
+      <div class="card-list" data-phase="${pi}"></div>
+    `;
+    const cardList = phaseEl.querySelector('.card-list');
+
+    phase.cards.forEach((card, ci) => {
+      const cardEl = document.createElement('div');
+      cardEl.className = 'card';
+      cardEl.draggable = true;
+      cardEl.dataset.format = card.format;
+      cardEl.dataset.platform = card.platform;
+      cardEl.dataset.status = card.status || 'idea';
+      cardEl.innerHTML = `
+        <div class="card-title" contenteditable="true">${card.title}</div>
+        <div class="card-meta">
+          <span>${card.format}</span>
+          <span>${card.platform}</span>
+        </div>
+        <div class="card-desc" contenteditable="true">${card.desc}</div>
+        <div class="card-status">
+          ${['idea','progress','ready','posted'].map(s =>
+            `<div class="status-dot ${s} ${card.status === s ? 'active' : ''}"
+                  title="${s}" onclick="setStatus(this, '${s}')"></div>`
+          ).join('')}
+          <span style="font-size:10px;color:#aaa;margin-left:4px">${card.status || 'idea'}</span>
+        </div>
+        <div class="card-actions">
+          <button class="card-delete" onclick="deleteCard(${pi},${ci})">×</button>
+        </div>
+      `;
+      setupCardDrag(cardEl, cardList);
+      cardList.appendChild(cardEl);
+    });
+
+    // Drop zone for cards
+    cardList.addEventListener('dragover', e => { e.preventDefault(); cardList.classList.add('drag-over'); });
+    cardList.addEventListener('dragleave', () => cardList.classList.remove('drag-over'));
+    cardList.addEventListener('drop', e => {
+      e.preventDefault();
+      cardList.classList.remove('drag-over');
+      if (window._draggedCard) {
+        cardList.appendChild(window._draggedCard);
+        window._draggedCard = null;
+      }
+    });
+
+    const addCardBtn = document.createElement('button');
+    addCardBtn.className = 'add-btn';
+    addCardBtn.style.marginTop = '8px';
+    addCardBtn.textContent = '+ Add card';
+    addCardBtn.onclick = () => {
+      phase.cards.push({ title: 'New post...', format: 'TBD', platform: 'TBD', desc: 'Description...', status: 'idea' });
+      renderPhases();
+    };
+    phaseEl.appendChild(addCardBtn);
+    container.appendChild(phaseEl);
+  });
+}
+
+function setStatus(dot, status) {
+  const card = dot.closest('.card');
+  card.dataset.status = status;
+  card.querySelectorAll('.status-dot').forEach(d => d.classList.remove('active'));
+  dot.classList.add('active');
+  dot.parentElement.querySelector('span').textContent = status;
+}
+
+function deleteCard(pi, ci) {
+  data.phases[pi].cards.splice(ci, 1);
+  renderPhases();
+}
+
+function setupCardDrag(el, list) {
+  el.addEventListener('dragstart', e => {
+    el.classList.add('dragging');
+    window._draggedCard = el;
+    e.dataTransfer.effectAllowed = 'move';
+  });
+  el.addEventListener('dragend', () => {
+    el.classList.remove('dragging');
+    window._draggedCard = null;
+  });
+}
+
+// ============ RENDER IDEAS ============
+function renderIdeas() {
+  const bank = document.getElementById('ideaBank');
+  bank.innerHTML = '';
+  data.ideas.forEach((idea, i) => {
+    const el = document.createElement('div');
+    el.className = 'idea-item';
+    el.draggable = true;
+    el.innerHTML = `
+      <button class="promote-btn" onclick="promoteIdea(${i})" title="Promote to Phase 1">↑</button>
+      <span class="idea-text" contenteditable="true">${idea}</span>
+      <button class="delete-btn" onclick="deleteIdea(${i})">×</button>
+    `;
+    bank.appendChild(el);
+  });
+}
+function addIdea() {
+  data.ideas.push('New idea...');
+  renderIdeas();
+}
+function deleteIdea(i) {
+  data.ideas.splice(i, 1);
+  renderIdeas();
+}
+function promoteIdea(i) {
+  const idea = data.ideas[i];
+  data.phases[0].cards.push({ title: idea, format: 'TBD', platform: 'TBD', desc: '', status: 'idea' });
+  data.ideas.splice(i, 1);
+  renderIdeas();
+  renderPhases();
+}
+
+// ============ RENDER CAST ============
+function renderCast() {
+  const body = document.getElementById('castBody');
+  body.innerHTML = '';
+  data.cast.forEach((c, i) => {
+    const tr = document.createElement('tr');
+    tr.innerHTML = `
+      <td contenteditable="true">${c.char}</td>
+      <td contenteditable="true">${c.role}</td>
+      <td contenteditable="true">${c.rep}</td>
+      <td contenteditable="true">${c.style}</td>
+      <td contenteditable="true">${c.sources}</td>
+      <td contenteditable="true">${c.avatar}</td>
+    `;
+    body.appendChild(tr);
+  });
+}
+function addCastRow() {
+  data.cast.push({ char: '?', role: '', rep: '', style: '', sources: '', avatar: '⬜ Not started' });
+  renderCast();
+}
+
+// ============ RENDER PLATFORMS ============
+function renderPlatforms() {
+  const grid = document.getElementById('platformGrid');
+  grid.innerHTML = '';
+  data.platforms.forEach(p => {
+    const card = document.createElement('div');
+    card.className = 'platform-card';
+    card.innerHTML = `
+      <h3>${p.name}</h3>
+      <div class="field">
+        <div class="field-label">Handle / Account</div>
+        <input class="field-value" value="${esc(p.handle)}" />
+      </div>
+      <div class="field">
+        <div class="field-label">Bio (中文)</div>
+        <textarea class="field-value">${esc(p.bio_cn)}</textarea>
+      </div>
+      <div class="field">
+        <div class="field-label">Bio (English)</div>
+        <textarea class="field-value">${esc(p.bio_en)}</textarea>
+      </div>
+      <div class="field">
+        <div class="field-label">Profile Picture</div>
+        <input class="field-value" value="${esc(p.pfp)}" />
+      </div>
+      <div class="field">
+        <div class="field-label">Formats & Specs</div>
+        <textarea class="field-value" style="min-height:80px">${esc(p.formats)}</textarea>
+      </div>
+      <div class="field">
+        <div class="field-label">Notes</div>
+        <textarea class="field-value">${esc(p.notes)}</textarea>
+      </div>
+    `;
+    grid.appendChild(card);
+  });
+}
+function addPlatform() {
+  data.platforms.push({ name: '📌 New Platform', handle: '', bio_cn: '', bio_en: '', pfp: '', formats: '', notes: '' });
+  renderPlatforms();
+}
+function esc(s) { return (s||'').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+
+// ============ GENERIC DRAG (todos) ============
+function setupDrag(el, container, className) {
+  el.addEventListener('dragstart', e => {
+    el.classList.add('dragging');
+    e.dataTransfer.effectAllowed = 'move';
+  });
+  el.addEventListener('dragend', () => {
+    el.classList.remove('dragging');
+    // Re-number priorities
+    container.querySelectorAll(`.${className} .priority`).forEach((p, i) => p.textContent = i + 1);
+  });
+  el.addEventListener('dragover', e => {
+    e.preventDefault();
+    const dragging = container.querySelector('.dragging');
+    if (dragging && dragging !== el) {
+      const rect = el.getBoundingClientRect();
+      const mid = rect.top + rect.height / 2;
+      if (e.clientY < mid) container.insertBefore(dragging, el);
+      else container.insertBefore(dragging, el.nextSibling);
+    }
+  });
+}
+
+// ============ AUTO-SAVE ON UNLOAD ============
+window.addEventListener('beforeunload', saveAll);
+
+// ============ INIT ============
+renderTodos();
+renderPhases();
+renderIdeas();
+renderCast();
+renderPlatforms();
+</script>
+</body>
+</html>
