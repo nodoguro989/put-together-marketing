@@ -18,8 +18,6 @@
     --teal: #1a6b5a;
     --teal-light: #2d9b84;
     --teal-dark: #0f4a3e;
-    --wood: #3a2218;
-    --wood-light: #5a3828;
     --text: #e8e4df;
     --text-dim: rgba(255,255,255,0.5);
     --text-dimmer: rgba(255,255,255,0.22);
@@ -34,204 +32,30 @@
   }
 
   /* ══════════════════════════════════
-     WARDROBE HERO — the mockup, exact
+     HERO — wardrobe illustration BG
      ══════════════════════════════════ */
-
-  .wardrobe-hero {
+  .hero {
     width: 100%;
     min-height: 100vh;
     position: relative;
     display: flex;
     align-items: center;
     justify-content: center;
-    background: var(--dark);
+    background: var(--dark) url('wardrobe-hero-bg.png') center top / cover no-repeat;
     overflow: hidden;
   }
-
-  /* ── LEFT PANEL ── */
-  .panel-left {
-    position: absolute;
-    left: 0;
-    top: 0;
-    bottom: 0;
-    width: 9%;
-    background: var(--dark-deep);
-    border-right: 3px solid var(--wood);
-    z-index: 2;
-  }
-  /* shelf lines on left panel */
-  .panel-left::before {
+  /* darken center slightly for text readability */
+  .hero::before {
     content: '';
     position: absolute;
-    top: 35%;
-    left: 0;
-    right: 0;
-    height: 2px;
-    background: var(--wood);
-  }
-  .panel-left::after {
-    content: '';
-    position: absolute;
-    top: 65%;
-    left: 0;
-    right: 0;
-    height: 2px;
-    background: var(--wood);
+    inset: 0;
+    background: radial-gradient(ellipse 60% 70% at center, rgba(12,16,24,0.55) 0%, transparent 100%);
+    z-index: 1;
   }
 
-  /* ── RIGHT PANEL ── */
-  .panel-right {
-    position: absolute;
-    right: 0;
-    top: 0;
-    bottom: 0;
-    width: 9%;
-    background: var(--dark-deep);
-    border-left: 3px solid var(--wood);
-    z-index: 2;
-  }
-  .panel-right::before {
-    content: '';
-    position: absolute;
-    top: 35%;
-    left: 0;
-    right: 0;
-    height: 2px;
-    background: var(--wood);
-  }
-  .panel-right::after {
-    content: '';
-    position: absolute;
-    top: 65%;
-    left: 0;
-    right: 0;
-    height: 2px;
-    background: var(--wood);
-  }
-
-  /* ── TOP PANEL (header rail with compartments) ── */
-  .panel-top {
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: 48px;
-    background: var(--dark-deep);
-    border-bottom: 3px solid var(--wood);
-    z-index: 3;
-    display: flex;
-  }
-  /* 5 compartments across the top */
-  .compartment {
-    flex: 1;
-    border-right: 2px solid var(--wood);
-    position: relative;
-  }
-  .compartment:last-child { border-right: none; }
-
-  /* ── CORNER PIXEL TILES ── */
-  .corner-tile {
-    position: absolute;
-    z-index: 4;
-    width: 48px;
-    height: 48px;
-    image-rendering: pixelated;
-  }
-  .corner-tile-tl {
-    top: 0;
-    left: 0;
-    background:
-      linear-gradient(135deg, var(--teal) 33%, var(--coral) 33% 66%, var(--teal-dark) 66%);
-  }
-  .corner-tile-tr {
-    top: 0;
-    right: 0;
-    background:
-      linear-gradient(225deg, var(--teal) 33%, var(--coral) 33% 66%, var(--teal-dark) 66%);
-  }
-
-  /* ── HANGING ROD + HANGERS ── */
-  .rod-area {
-    position: absolute;
-    top: 48px;
-    left: 9%;
-    right: 9%;
-    height: 60px;
-    z-index: 2;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding-top: 12px;
-  }
-  .rod {
-    width: 85%;
-    height: 2px;
-    background: linear-gradient(90deg, transparent 2%, rgba(255,255,255,0.15) 15%, rgba(255,255,255,0.15) 85%, transparent 98%);
-  }
-  .hangers {
-    display: flex;
-    gap: 8%;
-    margin-top: 2px;
-  }
-  .hanger {
-    width: 12px;
-    height: 10px;
-    border: 1.5px solid var(--wood-light);
-    border-bottom: none;
-    border-radius: 5px 5px 0 0;
-    position: relative;
-    opacity: 0.7;
-  }
-  .hanger::before {
-    content: '';
-    position: absolute;
-    top: -4px;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 2px;
-    height: 4px;
-    background: var(--wood-light);
-  }
-
-  /* ── BOTTOM DRAWERS ── */
-  .drawers {
-    position: absolute;
-    bottom: 6%;
-    left: 50%;
-    transform: translateX(-50%);
-    display: flex;
-    gap: 24px;
-    z-index: 2;
-  }
-  .drawer {
-    width: 100px;
-    height: 36px;
-    background: var(--dark-deep);
-    border: 2px solid var(--wood);
-    cursor: pointer;
-    transition: border-color 0.3s;
-    position: relative;
-  }
-  .drawer:hover { border-color: var(--coral); }
-  /* knob */
-  .drawer::after {
-    content: '';
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: 6px;
-    height: 6px;
-    border-radius: 50%;
-    background: var(--coral);
-    opacity: 0.5;
-  }
-  .drawer:hover::after { opacity: 1; }
-
-  /* ── CENTER CONTENT (the 70% dark void) ── */
   .hero-content {
     position: relative;
-    z-index: 1;
+    z-index: 2;
     text-align: center;
     max-width: 560px;
     padding: 0 24px;
@@ -241,18 +65,21 @@
     font-size: 8px;
     letter-spacing: 2px;
     color: var(--teal-light);
-    margin-bottom: 24px;
+    margin-bottom: 28px;
   }
   .hero-content h1 {
     font-family: 'Bodoni Moda', serif;
     font-size: clamp(40px, 7vw, 68px);
     font-weight: 400;
     line-height: 1.1;
-    margin-bottom: 20px;
+    margin-bottom: 22px;
     letter-spacing: -1px;
     color: #fff;
   }
-  .hero-content h1 em { font-style: italic; color: var(--coral); }
+  .hero-content h1 em {
+    font-style: italic;
+    color: var(--coral);
+  }
   .hero-content p {
     font-size: 16px;
     line-height: 1.7;
@@ -286,13 +113,8 @@
   }
   .pixel-btn:active {
     transform: translateY(1px);
-    box-shadow:
-      2px 0 0 0 #b85a46,
-      -2px 0 0 0 #b85a46,
-      0 2px 0 0 #b85a46,
-      0 -2px 0 0 #b85a46,
-      inset 0 2px 0 0 rgba(0,0,0,0.2);
   }
+
   .scroll-hint {
     position: absolute;
     bottom: 28px;
@@ -304,23 +126,22 @@
     animation: bob 2s ease-in-out infinite;
     z-index: 2;
   }
-  @keyframes bob { 0%,100% { transform: translateX(-50%) translateY(0); } 50% { transform: translateX(-50%) translateY(5px); } }
+  @keyframes bob {
+    0%,100% { transform: translateX(-50%) translateY(0); }
+    50% { transform: translateX(-50%) translateY(5px); }
+  }
 
   /* ══════════════════════════════════
-     BELOW THE FOLD — continuous dark universe
+     BELOW THE FOLD
      ══════════════════════════════════ */
-
-  /* single pixel rim */
   .rim {
     width: 100%;
     height: 4px;
-    background: repeating-linear-gradient(
-      90deg,
+    background: repeating-linear-gradient(90deg,
       var(--teal-dark) 0px, var(--teal-dark) 6px,
       var(--teal) 6px, var(--teal) 12px,
       var(--teal-dark) 12px, var(--teal-dark) 18px,
-      var(--coral) 18px, var(--coral) 24px
-    );
+      var(--coral) 18px, var(--coral) 24px);
     image-rendering: pixelated;
   }
 
@@ -351,7 +172,7 @@
     font-weight: 300;
   }
 
-  /* ── FLOW ── */
+  /* flow */
   .flow-line {
     margin-top: 36px;
     display: flex;
@@ -391,7 +212,7 @@
   .flow-text h3 { font-size: 14px; font-weight: 600; color: #fff; margin-bottom: 2px; }
   .flow-text p { font-size: 13px; color: var(--text-dim); line-height: 1.5; }
 
-  /* ── CAST ── */
+  /* cast */
   .cast-list {
     margin-top: 28px;
     display: flex;
@@ -413,7 +234,7 @@
   .cast-tag .name { font-weight: 600; color: #fff; }
   .cast-tag .desc { color: var(--text-dim); font-size: 11px; }
 
-  /* ── WAITLIST ── */
+  /* waitlist */
   .waitlist { text-align: center; }
   .waitlist-form {
     display: flex;
@@ -442,7 +263,6 @@
   .social-link { color: var(--text-dim); text-decoration: none; font-size: 12px; transition: color 0.3s; }
   .social-link:hover { color: var(--coral); }
 
-  /* ── FOOTER ── */
   .footer {
     padding: 20px;
     text-align: center;
@@ -450,82 +270,28 @@
     color: var(--text-dimmer);
     background: var(--dark-deep);
   }
-  .footer a { color: var(--coral); text-decoration: none; }
 
-  /* ── RESPONSIVE ── */
+  /* responsive */
   @media (max-width: 768px) {
-    .panel-left, .panel-right { width: 5%; }
-    .rod-area { left: 5%; right: 5%; }
     .section { padding: 48px 7%; }
-    .wardrobe-hero { min-height: 90vh; }
-    .drawers { gap: 16px; }
-    .drawer { width: 72px; height: 28px; }
+    .hero { min-height: 90vh; background-size: cover; background-position: center top; }
     .waitlist-form { flex-direction: column; }
     .waitlist-form button { width: 100%; }
-    .corner-tile { width: 32px; height: 32px; }
-    .hanger { width: 10px; height: 8px; }
-    .hangers { gap: 5%; }
-  }
-  @media (max-width: 480px) {
-    .panel-left, .panel-right { width: 3%; }
-    .panel-top { height: 32px; }
-    .rod-area { top: 32px; height: 44px; }
-    .corner-tile { width: 24px; height: 24px; }
   }
 </style>
 </head>
 <body>
 
-<!-- ════════════ WARDROBE HERO ════════════ -->
-<div class="wardrobe-hero">
-
-  <!-- Structural frame -->
-  <div class="panel-left"></div>
-  <div class="panel-right"></div>
-  <div class="panel-top">
-    <div class="compartment"></div>
-    <div class="compartment"></div>
-    <div class="compartment"></div>
-    <div class="compartment"></div>
-    <div class="compartment"></div>
-  </div>
-
-  <!-- Corner pixel tiles -->
-  <div class="corner-tile corner-tile-tl"></div>
-  <div class="corner-tile corner-tile-tr"></div>
-
-  <!-- Hanging rod + hangers -->
-  <div class="rod-area">
-    <div class="rod"></div>
-    <div class="hangers">
-      <div class="hanger"></div>
-      <div class="hanger"></div>
-      <div class="hanger"></div>
-      <div class="hanger"></div>
-      <div class="hanger"></div>
-      <div class="hanger"></div>
-      <div class="hanger"></div>
-    </div>
-  </div>
-
-  <!-- Bottom drawers -->
-  <div class="drawers">
-    <div class="drawer"></div>
-    <div class="drawer"></div>
-  </div>
-
-  <!-- Text content -->
+<div class="hero">
   <div class="hero-content">
     <div class="hero-eyebrow">~ Style Intelligence ~</div>
     <h1>Your wardrobe,<br><em>illustrated.</em></h1>
     <p>Put-Together learns your style from outfit photos, renders every piece as a watercolor sticker, and dresses you every morning from what you already own.</p>
     <a href="#waitlist" class="pixel-btn">Join the Waitlist →</a>
   </div>
-
   <div class="scroll-hint">▼ scroll ▼</div>
 </div>
 
-<!-- ════════════ BELOW THE FOLD ════════════ -->
 <div class="rim"></div>
 
 <div class="section">
@@ -534,45 +300,27 @@
   <div class="flow-line">
     <div class="flow-item">
       <div class="flow-dot">📸</div>
-      <div class="flow-text">
-        <h3>Upload your OOTDs</h3>
-        <p>Share outfit photos. Put-Together sees every piece and learns how you wear them together.</p>
-      </div>
+      <div class="flow-text"><h3>Upload your OOTDs</h3><p>Share outfit photos. Put-Together sees every piece and learns how you wear them together.</p></div>
     </div>
     <div class="flow-item">
       <div class="flow-dot">🎨</div>
-      <div class="flow-text">
-        <h3>Get your sticker wardrobe</h3>
-        <p>Every garment becomes a Japanese watercolor sticker — your accessories, shoes, coats, all yours.</p>
-      </div>
+      <div class="flow-text"><h3>Get your sticker wardrobe</h3><p>Every garment becomes a Japanese watercolor sticker — accessories, shoes, coats, all yours.</p></div>
     </div>
     <div class="flow-item">
       <div class="flow-dot">🎭</div>
-      <div class="flow-text">
-        <h3>Your style formulas, discovered</h3>
-        <p>Put-Together finds the patterns in how you dress — your personal signatures.</p>
-      </div>
+      <div class="flow-text"><h3>Your style formulas, discovered</h3><p>Put-Together finds the patterns in how you dress — your personal signatures.</p></div>
     </div>
     <div class="flow-item">
       <div class="flow-dot">🌤</div>
-      <div class="flow-text">
-        <h3>Get dressed every morning</h3>
-        <p>Checks the weather, picks the perfect outfit from what you own.</p>
-      </div>
+      <div class="flow-text"><h3>Get dressed every morning</h3><p>Checks the weather, picks the perfect outfit from what you own.</p></div>
     </div>
     <div class="flow-item">
       <div class="flow-dot">🧩</div>
-      <div class="flow-text">
-        <h3>One missing piece at a time</h3>
-        <p>No shopping lists. Just one surgical suggestion that completes what you have.</p>
-      </div>
+      <div class="flow-text"><h3>One missing piece at a time</h3><p>No shopping lists. Just one surgical suggestion that completes what you have.</p></div>
     </div>
     <div class="flow-item">
       <div class="flow-dot">💌</div>
-      <div class="flow-text">
-        <h3>Love letters about your style</h3>
-        <p>Honest notes about what works, why it works, and what your wardrobe says about you.</p>
-      </div>
+      <div class="flow-text"><h3>Love letters about your style</h3><p>Honest notes about what works, why it works, and what your wardrobe says about you.</p></div>
     </div>
   </div>
 </div>
@@ -626,11 +374,9 @@ document.getElementById('waitlistForm').addEventListener('submit', async functio
   this.style.display = 'none'
   document.getElementById('waitlistSuccess').style.display = 'block'
 })
-
-// Sparse petals
 function spawnPetal() {
   var p = document.createElement('div')
-  p.style.cssText = 'position:fixed;pointer-events:none;z-index:1000;opacity:0;font-size:' + (10+Math.random()*6) + 'px;left:' + (Math.random()*100) + 'vw;top:-20px;animation:fall ' + (8+Math.random()*10) + 's linear forwards;'
+  p.style.cssText = 'position:fixed;pointer-events:none;z-index:1000;opacity:0;font-size:'+(10+Math.random()*6)+'px;left:'+(Math.random()*100)+'vw;top:-20px;animation:fall '+(8+Math.random()*10)+'s linear forwards;'
   p.textContent = '🌸'
   document.body.appendChild(p)
   setTimeout(function(){ p.remove() }, 18000)
