@@ -14,8 +14,6 @@
     --coral: #D0705A;
     --coral-light: #e8947e;
     --dark: #111820;
-    --dark-deep: #0c1018;
-    --teal: #1a6b5a;
     --teal-light: #2d9b84;
     --teal-dark: #0f4a3e;
     --text: #e8e4df;
@@ -26,73 +24,38 @@
   html { scroll-behavior: smooth; }
   body {
     font-family: 'Inter', -apple-system, system-ui, sans-serif;
-    background: var(--dark-deep);
+    background: #0c1018;
     color: var(--text);
     overflow-x: hidden;
   }
 
   /* ══════════════════════════════════
-     THE WARDROBE — one continuous interior
-     Side panels run the ENTIRE page height
+     THE WARDROBE — one image, one world
      ══════════════════════════════════ */
-
-  .wardrobe {
+  .wardrobe-page {
+    max-width: 1920px;
+    margin: 0 auto;
+    background: url('wardrobe-bg.png') center top / 100% auto no-repeat;
+    min-height: 3000px;
     position: relative;
-    min-height: 100vh;
-    /* The dark wardrobe interior */
-    background: var(--dark);
-  }
-
-  /* Side panels — extend full page height using repeating bg */
-  .wardrobe::before,
-  .wardrobe::after {
-    content: '';
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    width: 13.3%;
-    z-index: 3;
-    pointer-events: none;
-  }
-  .wardrobe::before {
-    left: 0;
-    background: url('wardrobe-side-left.png') repeat-y left top / 100% auto;
-  }
-  .wardrobe::after {
-    right: 0;
-    background: url('wardrobe-side-right.png') repeat-y right top / 100% auto;
   }
 
   /* ══════════════════════════════════
-     HERO SECTION
+     HERO — top viewport
      ══════════════════════════════════ */
-
   .hero {
-    position: relative;
     min-height: 100vh;
     display: flex;
-    flex-direction: column;
     align-items: center;
-    /* Hero uses the full wardrobe image as bg */
-    background: url('wardrobe-hero-bg.png') center top / cover no-repeat;
-  }
-  /* subtle center darkening for text readability */
-  .hero::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background: radial-gradient(ellipse 50% 55% at center 55%, rgba(12,16,24,0.5) 0%, transparent 100%);
-    z-index: 1;
-  }
-
-  .hero-content {
+    justify-content: center;
     position: relative;
-    z-index: 2;
+  }
+  .hero-content {
     text-align: center;
     max-width: 520px;
-    /* Match mockup: text block starts at ~38% from top */
-    margin-top: 36vh;
     padding: 0 24px;
+    /* Push down to ~38% from top (below hangers + rim) */
+    margin-top: 8vh;
   }
   .hero-eyebrow {
     font-family: 'Press Start 2P', monospace;
@@ -151,7 +114,6 @@
     font-family: 'Press Start 2P', monospace;
     font-size: 7px;
     animation: bob 2s ease-in-out infinite;
-    z-index: 2;
   }
   @keyframes bob {
     0%,100% { transform: translateX(-50%) translateY(0); }
@@ -159,28 +121,20 @@
   }
 
   /* ══════════════════════════════════
-     CONTENT SECTIONS
-     All live inside the wardrobe interior —
-     padded to stay within the side panels
+     CONTENT — all inside the wardrobe
+     Padded to stay within the side panels (~13% each side)
      ══════════════════════════════════ */
-
   .inner-section {
-    position: relative;
-    z-index: 2;
-    /* 13.3% side panels + generous inner padding */
-    padding: 56px 18% 56px 18%;
-    background: var(--dark);
+    padding: 48px 18%;
   }
 
-  /* Thin pixel rim between sections */
+  /* pixel rim — stays inside the panels */
   .rim {
-    position: relative;
-    z-index: 2;
     height: 4px;
-    margin: 0 13.3%;
+    margin: 0 15%;
     background: repeating-linear-gradient(90deg,
       var(--teal-dark) 0px, var(--teal-dark) 6px,
-      var(--teal) 6px, var(--teal) 12px,
+      var(--teal-light) 6px, var(--teal-light) 12px,
       var(--teal-dark) 12px, var(--teal-dark) 18px,
       var(--coral) 18px, var(--coral) 24px);
     image-rendering: pixelated;
@@ -214,9 +168,7 @@
   .flow-line::before {
     content: '';
     position: absolute;
-    left: 13px;
-    top: 24px;
-    bottom: 24px;
+    left: 13px; top: 24px; bottom: 24px;
     width: 1px;
     background: repeating-linear-gradient(180deg,
       var(--teal-dark) 0px, var(--teal-dark) 3px,
@@ -227,7 +179,7 @@
     width: 26px; height: 26px; flex-shrink: 0;
     display: flex; align-items: center; justify-content: center;
     font-size: 12px;
-    background: var(--dark-deep);
+    background: rgba(12,16,24,0.8);
     border: 1.5px solid var(--teal-dark);
     position: relative; z-index: 1;
   }
@@ -239,8 +191,8 @@
   .cast-tag {
     display: inline-flex; align-items: center; gap: 6px;
     padding: 7px 11px;
-    background: rgba(45,155,132,0.04);
-    border: 1px solid rgba(45,155,132,0.12);
+    background: rgba(12,16,24,0.6);
+    border: 1px solid rgba(45,155,132,0.15);
     font-size: 12px;
     transition: border-color 0.3s;
     cursor: default;
@@ -259,7 +211,7 @@
   .waitlist-form input {
     flex: 1; padding: 11px 14px;
     border: 1.5px solid var(--teal-dark);
-    background: var(--dark-deep);
+    background: rgba(12,16,24,0.8);
     color: var(--text);
     font-size: 13px; font-family: inherit;
     outline: none; transition: border-color 0.3s;
@@ -272,41 +224,38 @@
   .social-link { color: var(--text-dim); text-decoration: none; font-size: 11px; transition: color 0.3s; }
   .social-link:hover { color: var(--coral); }
 
-  /* Footer — still inside the wardrobe */
+  /* footer */
   .wardrobe-footer {
-    position: relative;
-    z-index: 2;
     padding: 20px 18%;
     text-align: center;
     font-size: 10px;
     color: var(--text-dimmer);
-    background: var(--dark);
   }
 
   /* ══════════════════════════════════
      RESPONSIVE
      ══════════════════════════════════ */
+  @media (max-width: 1200px) {
+    .inner-section { padding: 40px 16%; }
+    .rim { margin: 0 13%; }
+  }
   @media (max-width: 768px) {
-    .wardrobe::before, .wardrobe::after { width: 6%; }
-    .inner-section { padding: 40px 10%; }
-    .rim { margin: 0 6%; }
-    .hero-content { margin-top: 30vh; }
+    .inner-section { padding: 36px 10%; }
+    .rim { margin: 0 8%; }
+    .hero-content { margin-top: 4vh; }
     .waitlist-form { flex-direction: column; }
     .waitlist-form button { width: 100%; }
   }
   @media (max-width: 480px) {
-    .wardrobe::before, .wardrobe::after { width: 3%; }
-    .inner-section { padding: 32px 7%; }
-    .rim { margin: 0 3%; }
-    .hero-content { margin-top: 28vh; }
+    .inner-section { padding: 28px 7%; }
+    .rim { margin: 0 5%; }
   }
 </style>
 </head>
 <body>
 
-<div class="wardrobe">
+<div class="wardrobe-page">
 
-  <!-- HERO -->
   <div class="hero">
     <div class="hero-content">
       <div class="hero-eyebrow">~ Style Intelligence ~</div>
@@ -317,7 +266,6 @@
     <div class="scroll-hint">▼ scroll ▼</div>
   </div>
 
-  <!-- The wardrobe interior continues... -->
   <div class="rim"></div>
 
   <div class="inner-section">
@@ -389,7 +337,7 @@
 
   <div class="wardrobe-footer">Put-Together © 2026</div>
 
-</div><!-- /wardrobe -->
+</div>
 
 <script>
 document.getElementById('waitlistForm').addEventListener('submit', async function(e) {
