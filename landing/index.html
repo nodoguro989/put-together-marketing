@@ -32,24 +32,56 @@
   }
 
   /* ══════════════════════════════════
-     HERO — wardrobe illustration BG
+     THE WARDROBE — one continuous interior
+     Side panels run the ENTIRE page height
      ══════════════════════════════════ */
-  .hero {
-    width: 100%;
-    min-height: 100vh;
+
+  .wardrobe {
     position: relative;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: var(--dark) url('wardrobe-hero-bg.png') center top / cover no-repeat;
-    overflow: hidden;
+    min-height: 100vh;
+    /* The dark wardrobe interior */
+    background: var(--dark);
   }
-  /* darken center slightly for text readability */
+
+  /* Side panels — extend full page height using repeating bg */
+  .wardrobe::before,
+  .wardrobe::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 13.3%;
+    z-index: 3;
+    pointer-events: none;
+  }
+  .wardrobe::before {
+    left: 0;
+    background: url('wardrobe-side-left.png') repeat-y left top / 100% auto;
+  }
+  .wardrobe::after {
+    right: 0;
+    background: url('wardrobe-side-right.png') repeat-y right top / 100% auto;
+  }
+
+  /* ══════════════════════════════════
+     HERO SECTION
+     ══════════════════════════════════ */
+
+  .hero {
+    position: relative;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    /* Hero uses the full wardrobe image as bg */
+    background: url('wardrobe-hero-bg.png') center top / cover no-repeat;
+  }
+  /* subtle center darkening for text readability */
   .hero::before {
     content: '';
     position: absolute;
     inset: 0;
-    background: radial-gradient(ellipse 60% 70% at center, rgba(12,16,24,0.55) 0%, transparent 100%);
+    background: radial-gradient(ellipse 50% 55% at center 55%, rgba(12,16,24,0.5) 0%, transparent 100%);
     z-index: 1;
   }
 
@@ -57,7 +89,9 @@
     position: relative;
     z-index: 2;
     text-align: center;
-    max-width: 560px;
+    max-width: 520px;
+    /* Match mockup: text block starts at ~38% from top */
+    margin-top: 36vh;
     padding: 0 24px;
   }
   .hero-eyebrow {
@@ -65,35 +99,33 @@
     font-size: 8px;
     letter-spacing: 2px;
     color: var(--teal-light);
-    margin-bottom: 28px;
+    margin-bottom: 24px;
   }
   .hero-content h1 {
     font-family: 'Bodoni Moda', serif;
-    font-size: clamp(40px, 7vw, 68px);
+    font-size: clamp(36px, 6vw, 62px);
     font-weight: 400;
     line-height: 1.1;
-    margin-bottom: 22px;
+    margin-bottom: 20px;
     letter-spacing: -1px;
     color: #fff;
   }
-  .hero-content h1 em {
-    font-style: italic;
-    color: var(--coral);
-  }
+  .hero-content h1 em { font-style: italic; color: var(--coral); }
   .hero-content p {
-    font-size: 16px;
+    font-size: 15px;
     line-height: 1.7;
     color: var(--text-dim);
-    max-width: 460px;
-    margin: 0 auto 36px;
+    max-width: 440px;
+    margin: 0 auto 32px;
     font-weight: 300;
   }
+
   .pixel-btn {
     display: inline-block;
     background: var(--coral);
     color: #fff;
     border: none;
-    padding: 13px 30px;
+    padding: 12px 28px;
     font-size: 14px;
     font-weight: 500;
     cursor: pointer;
@@ -107,13 +139,8 @@
       inset 0 -2px 0 0 rgba(0,0,0,0.15),
       inset 0 2px 0 0 rgba(255,255,255,0.1);
   }
-  .pixel-btn:hover {
-    background: var(--coral-light);
-    transform: translateY(-1px);
-  }
-  .pixel-btn:active {
-    transform: translateY(1px);
-  }
+  .pixel-btn:hover { background: var(--coral-light); transform: translateY(-1px); }
+  .pixel-btn:active { transform: translateY(1px); }
 
   .scroll-hint {
     position: absolute;
@@ -132,11 +159,25 @@
   }
 
   /* ══════════════════════════════════
-     BELOW THE FOLD
+     CONTENT SECTIONS
+     All live inside the wardrobe interior —
+     padded to stay within the side panels
      ══════════════════════════════════ */
+
+  .inner-section {
+    position: relative;
+    z-index: 2;
+    /* 13.3% side panels + generous inner padding */
+    padding: 56px 18% 56px 18%;
+    background: var(--dark);
+  }
+
+  /* Thin pixel rim between sections */
   .rim {
-    width: 100%;
+    position: relative;
+    z-index: 2;
     height: 4px;
+    margin: 0 13.3%;
     background: repeating-linear-gradient(90deg,
       var(--teal-dark) 0px, var(--teal-dark) 6px,
       var(--teal) 6px, var(--teal) 12px,
@@ -145,10 +186,6 @@
     image-rendering: pixelated;
   }
 
-  .section {
-    padding: 64px 10%;
-    background: var(--dark);
-  }
   .section-eyebrow {
     font-family: 'Press Start 2P', monospace;
     font-size: 7px;
@@ -158,210 +195,201 @@
   }
   .section-title {
     font-family: 'Bodoni Moda', serif;
-    font-size: clamp(26px, 4vw, 36px);
+    font-size: clamp(24px, 3.5vw, 34px);
     font-weight: 400;
     line-height: 1.2;
     margin-bottom: 14px;
     color: #fff;
   }
   .section-desc {
-    font-size: 15px;
+    font-size: 14px;
     line-height: 1.7;
     color: var(--text-dim);
-    max-width: 520px;
+    max-width: 480px;
     font-weight: 300;
   }
 
   /* flow */
-  .flow-line {
-    margin-top: 36px;
-    display: flex;
-    flex-direction: column;
-    position: relative;
-  }
+  .flow-line { margin-top: 32px; display: flex; flex-direction: column; position: relative; }
   .flow-line::before {
     content: '';
     position: absolute;
-    left: 14px;
-    top: 28px;
-    bottom: 28px;
+    left: 13px;
+    top: 24px;
+    bottom: 24px;
     width: 1px;
     background: repeating-linear-gradient(180deg,
       var(--teal-dark) 0px, var(--teal-dark) 3px,
       transparent 3px, transparent 6px);
   }
-  .flow-item {
-    display: flex;
-    align-items: flex-start;
-    gap: 14px;
-    padding: 12px 0;
-  }
+  .flow-item { display: flex; align-items: flex-start; gap: 12px; padding: 10px 0; }
   .flow-dot {
-    width: 28px;
-    height: 28px;
-    flex-shrink: 0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 13px;
+    width: 26px; height: 26px; flex-shrink: 0;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 12px;
     background: var(--dark-deep);
     border: 1.5px solid var(--teal-dark);
-    position: relative;
-    z-index: 1;
+    position: relative; z-index: 1;
   }
-  .flow-text h3 { font-size: 14px; font-weight: 600; color: #fff; margin-bottom: 2px; }
-  .flow-text p { font-size: 13px; color: var(--text-dim); line-height: 1.5; }
+  .flow-text h3 { font-size: 13px; font-weight: 600; color: #fff; margin-bottom: 2px; }
+  .flow-text p { font-size: 12px; color: var(--text-dim); line-height: 1.5; }
 
   /* cast */
-  .cast-list {
-    margin-top: 28px;
-    display: flex;
-    flex-wrap: wrap;
-    gap: 10px;
-  }
+  .cast-list { margin-top: 24px; display: flex; flex-wrap: wrap; gap: 8px; }
   .cast-tag {
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-    padding: 8px 12px;
+    display: inline-flex; align-items: center; gap: 6px;
+    padding: 7px 11px;
     background: rgba(45,155,132,0.04);
     border: 1px solid rgba(45,155,132,0.12);
-    font-size: 13px;
+    font-size: 12px;
     transition: border-color 0.3s;
     cursor: default;
   }
   .cast-tag:hover { border-color: var(--coral); }
   .cast-tag .name { font-weight: 600; color: #fff; }
-  .cast-tag .desc { color: var(--text-dim); font-size: 11px; }
+  .cast-tag .desc { color: var(--text-dim); font-size: 10px; }
 
   /* waitlist */
   .waitlist { text-align: center; }
   .waitlist-form {
-    display: flex;
-    gap: 8px;
-    margin-top: 24px;
-    max-width: 360px;
-    margin-left: auto;
-    margin-right: auto;
+    display: flex; gap: 8px;
+    margin-top: 20px; max-width: 340px;
+    margin-left: auto; margin-right: auto;
   }
   .waitlist-form input {
-    flex: 1;
-    padding: 12px 16px;
+    flex: 1; padding: 11px 14px;
     border: 1.5px solid var(--teal-dark);
     background: var(--dark-deep);
     color: var(--text);
-    font-size: 14px;
-    font-family: inherit;
-    outline: none;
-    transition: border-color 0.3s;
+    font-size: 13px; font-family: inherit;
+    outline: none; transition: border-color 0.3s;
   }
   .waitlist-form input::placeholder { color: var(--text-dimmer); }
   .waitlist-form input:focus { border-color: var(--coral); }
-  .waitlist-success { display: none; margin-top: 16px; font-size: 14px; color: var(--coral); }
-  .waitlist-note { margin-top: 12px; font-size: 11px; color: var(--text-dimmer); }
-  .social-links { display: flex; justify-content: center; gap: 18px; margin-top: 20px; }
-  .social-link { color: var(--text-dim); text-decoration: none; font-size: 12px; transition: color 0.3s; }
+  .waitlist-success { display: none; margin-top: 14px; font-size: 13px; color: var(--coral); }
+  .waitlist-note { margin-top: 10px; font-size: 10px; color: var(--text-dimmer); }
+  .social-links { display: flex; justify-content: center; gap: 16px; margin-top: 16px; }
+  .social-link { color: var(--text-dim); text-decoration: none; font-size: 11px; transition: color 0.3s; }
   .social-link:hover { color: var(--coral); }
 
-  .footer {
-    padding: 20px;
+  /* Footer — still inside the wardrobe */
+  .wardrobe-footer {
+    position: relative;
+    z-index: 2;
+    padding: 20px 18%;
     text-align: center;
-    font-size: 11px;
+    font-size: 10px;
     color: var(--text-dimmer);
-    background: var(--dark-deep);
+    background: var(--dark);
   }
 
-  /* responsive */
+  /* ══════════════════════════════════
+     RESPONSIVE
+     ══════════════════════════════════ */
   @media (max-width: 768px) {
-    .section { padding: 48px 7%; }
-    .hero { min-height: 90vh; background-size: cover; background-position: center top; }
+    .wardrobe::before, .wardrobe::after { width: 6%; }
+    .inner-section { padding: 40px 10%; }
+    .rim { margin: 0 6%; }
+    .hero-content { margin-top: 30vh; }
     .waitlist-form { flex-direction: column; }
     .waitlist-form button { width: 100%; }
+  }
+  @media (max-width: 480px) {
+    .wardrobe::before, .wardrobe::after { width: 3%; }
+    .inner-section { padding: 32px 7%; }
+    .rim { margin: 0 3%; }
+    .hero-content { margin-top: 28vh; }
   }
 </style>
 </head>
 <body>
 
-<div class="hero">
-  <div class="hero-content">
-    <div class="hero-eyebrow">~ Style Intelligence ~</div>
-    <h1>Your wardrobe,<br><em>illustrated.</em></h1>
-    <p>Put-Together learns your style from outfit photos, renders every piece as a watercolor sticker, and dresses you every morning from what you already own.</p>
-    <a href="#waitlist" class="pixel-btn">Join the Waitlist →</a>
+<div class="wardrobe">
+
+  <!-- HERO -->
+  <div class="hero">
+    <div class="hero-content">
+      <div class="hero-eyebrow">~ Style Intelligence ~</div>
+      <h1>Your wardrobe,<br><em>illustrated.</em></h1>
+      <p>Put-Together learns your style from outfit photos, renders every piece as a watercolor sticker, and dresses you every morning from what you already own.</p>
+      <a href="#waitlist" class="pixel-btn">Join the Waitlist →</a>
+    </div>
+    <div class="scroll-hint">▼ scroll ▼</div>
   </div>
-  <div class="scroll-hint">▼ scroll ▼</div>
-</div>
 
-<div class="rim"></div>
+  <!-- The wardrobe interior continues... -->
+  <div class="rim"></div>
 
-<div class="section">
-  <div class="section-eyebrow">How It Works</div>
-  <div class="section-title">From outfit photo to daily intelligence</div>
-  <div class="flow-line">
-    <div class="flow-item">
-      <div class="flow-dot">📸</div>
-      <div class="flow-text"><h3>Upload your OOTDs</h3><p>Share outfit photos. Put-Together sees every piece and learns how you wear them together.</p></div>
-    </div>
-    <div class="flow-item">
-      <div class="flow-dot">🎨</div>
-      <div class="flow-text"><h3>Get your sticker wardrobe</h3><p>Every garment becomes a Japanese watercolor sticker — accessories, shoes, coats, all yours.</p></div>
-    </div>
-    <div class="flow-item">
-      <div class="flow-dot">🎭</div>
-      <div class="flow-text"><h3>Your style formulas, discovered</h3><p>Put-Together finds the patterns in how you dress — your personal signatures.</p></div>
-    </div>
-    <div class="flow-item">
-      <div class="flow-dot">🌤</div>
-      <div class="flow-text"><h3>Get dressed every morning</h3><p>Checks the weather, picks the perfect outfit from what you own.</p></div>
-    </div>
-    <div class="flow-item">
-      <div class="flow-dot">🧩</div>
-      <div class="flow-text"><h3>One missing piece at a time</h3><p>No shopping lists. Just one surgical suggestion that completes what you have.</p></div>
-    </div>
-    <div class="flow-item">
-      <div class="flow-dot">💌</div>
-      <div class="flow-text"><h3>Love letters about your style</h3><p>Honest notes about what works, why it works, and what your wardrobe says about you.</p></div>
+  <div class="inner-section">
+    <div class="section-eyebrow">How It Works</div>
+    <div class="section-title">From outfit photo to daily intelligence</div>
+    <div class="flow-line">
+      <div class="flow-item">
+        <div class="flow-dot">📸</div>
+        <div class="flow-text"><h3>Upload your OOTDs</h3><p>Share outfit photos. Put-Together sees every piece and learns how you wear them together.</p></div>
+      </div>
+      <div class="flow-item">
+        <div class="flow-dot">🎨</div>
+        <div class="flow-text"><h3>Get your sticker wardrobe</h3><p>Every garment becomes a Japanese watercolor sticker — accessories, shoes, coats, all yours.</p></div>
+      </div>
+      <div class="flow-item">
+        <div class="flow-dot">🎭</div>
+        <div class="flow-text"><h3>Your style formulas, discovered</h3><p>Put-Together finds the patterns in how you dress — your personal signatures.</p></div>
+      </div>
+      <div class="flow-item">
+        <div class="flow-dot">🌤</div>
+        <div class="flow-text"><h3>Get dressed every morning</h3><p>Checks the weather, picks the perfect outfit from what you own.</p></div>
+      </div>
+      <div class="flow-item">
+        <div class="flow-dot">🧩</div>
+        <div class="flow-text"><h3>One missing piece at a time</h3><p>No shopping lists. Just one surgical suggestion that completes what you have.</p></div>
+      </div>
+      <div class="flow-item">
+        <div class="flow-dot">💌</div>
+        <div class="flow-text"><h3>Love letters about your style</h3><p>Honest notes about what works, why it works, and what your wardrobe says about you.</p></div>
+      </div>
     </div>
   </div>
-</div>
 
-<div class="rim"></div>
+  <div class="rim"></div>
 
-<div class="section">
-  <div class="section-eyebrow">The World</div>
-  <div class="section-title">Every wardrobe tells a story</div>
-  <div class="section-desc">Put-Together works for everyone. Meet the characters who prove it.</div>
-  <div class="cast-list">
-    <div class="cast-tag"><span class="name">🌸 Candice</span><span class="desc">versatile, all moods</span></div>
-    <div class="cast-tag"><span class="name">👩 Sophie</span><span class="desc">chic & structured</span></div>
-    <div class="cast-tag"><span class="name">👨 Kenji</span><span class="desc">大叔 cool</span></div>
-    <div class="cast-tag"><span class="name">👦 Kai</span><span class="desc">streetwear-editorial</span></div>
-    <div class="cast-tag"><span class="name">👧 Sloane</span><span class="desc">preppy-warm</span></div>
-    <div class="cast-tag"><span class="name">👧 Zora</span><span class="desc">bold & editorial</span></div>
-    <div class="cast-tag"><span class="name">🧑 Mika</span><span class="desc">gender-fluid</span></div>
+  <div class="inner-section">
+    <div class="section-eyebrow">The World</div>
+    <div class="section-title">Every wardrobe tells a story</div>
+    <div class="section-desc">Put-Together works for everyone. Meet the characters who prove it.</div>
+    <div class="cast-list">
+      <div class="cast-tag"><span class="name">🌸 Candice</span><span class="desc">versatile, all moods</span></div>
+      <div class="cast-tag"><span class="name">👩 Sophie</span><span class="desc">chic & structured</span></div>
+      <div class="cast-tag"><span class="name">👨 Kenji</span><span class="desc">大叔 cool</span></div>
+      <div class="cast-tag"><span class="name">👦 Kai</span><span class="desc">streetwear-editorial</span></div>
+      <div class="cast-tag"><span class="name">👧 Sloane</span><span class="desc">preppy-warm</span></div>
+      <div class="cast-tag"><span class="name">👧 Zora</span><span class="desc">bold & editorial</span></div>
+      <div class="cast-tag"><span class="name">🧑 Mika</span><span class="desc">gender-fluid</span></div>
+    </div>
   </div>
-</div>
 
-<div class="rim"></div>
+  <div class="rim"></div>
 
-<div class="section waitlist" id="waitlist">
-  <div class="section-eyebrow">Coming Soon</div>
-  <div class="section-title">Want your own wardrobe world?</div>
-  <div class="section-desc" style="margin:0 auto;text-align:center;">Join early. Be the first to get your sticker wardrobe.</div>
-  <form class="waitlist-form" id="waitlistForm">
-    <input type="email" placeholder="your@email.com" required id="emailInput">
-    <button type="submit" class="pixel-btn">Join</button>
-  </form>
-  <div class="waitlist-success" id="waitlistSuccess">🌸 You're in!</div>
-  <div class="waitlist-note">No spam. Just style intelligence.</div>
-  <div class="social-links">
-    <a href="https://instagram.com/puttogetherapp" class="social-link" target="_blank">📸 Instagram</a>
-    <a href="https://x.com/puttogetherapp" class="social-link" target="_blank">🐦 X</a>
-    <a href="#" class="social-link">📕 小红书</a>
+  <div class="inner-section waitlist" id="waitlist">
+    <div class="section-eyebrow">Coming Soon</div>
+    <div class="section-title">Want your own wardrobe world?</div>
+    <div class="section-desc" style="margin:0 auto;text-align:center;">Join early. Be the first to get your sticker wardrobe.</div>
+    <form class="waitlist-form" id="waitlistForm">
+      <input type="email" placeholder="your@email.com" required id="emailInput">
+      <button type="submit" class="pixel-btn">Join</button>
+    </form>
+    <div class="waitlist-success" id="waitlistSuccess">🌸 You're in!</div>
+    <div class="waitlist-note">No spam. Just style intelligence.</div>
+    <div class="social-links">
+      <a href="https://instagram.com/puttogetherapp" class="social-link" target="_blank">📸 Instagram</a>
+      <a href="https://x.com/puttogetherapp" class="social-link" target="_blank">🐦 X</a>
+      <a href="#" class="social-link">📕 小红书</a>
+    </div>
   </div>
-</div>
 
-<div class="footer">Put-Together © 2026</div>
+  <div class="wardrobe-footer">Put-Together © 2026</div>
+
+</div><!-- /wardrobe -->
 
 <script>
 document.getElementById('waitlistForm').addEventListener('submit', async function(e) {
